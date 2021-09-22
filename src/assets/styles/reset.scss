@@ -1,0 +1,9 @@
+// === For Svelte ===
+
+:global(body) {
+  all: initial;
+
+  :global(*) {
+    all: unset;
+  }
+}
