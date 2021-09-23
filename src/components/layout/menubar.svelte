@@ -1,14 +1,11 @@
 <script lang="ts"></script>
 
 <template lang="pug">
-  #menubar Menubar
+  #menubar(class="{$$props.class}")
 </template>
 
 <style lang="scss">
   #menubar {
-    grid-area: menubar;
-    width: 100%;
-    height: 2.5rem;
-    background-color: aliceblue;
+    border: 0.0625rem solid var(--color-bg-4);
   }
 </style>

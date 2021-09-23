@@ -1,15 +1,12 @@
 <script lang="ts"></script>
 
 <template lang="pug">
-  #tabbar Tabbar
+  #tabbar(class="{$$props.class}")
 </template>
-
 
 <style lang="scss">
   #tabbar {
-    grid-area: tabbar;
-    width: 100%;
-    height: 3rem;
-    background-color: magenta;
+    border: 0.0625rem solid var(--color-bg-4);
+    background-color: var(--color-bg-6);
   }
 </style>

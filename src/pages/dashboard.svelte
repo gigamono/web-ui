@@ -7,10 +7,10 @@
 
 <template lang="pug">
   #dashboard
-    Sidestrip
-    Tabbar
-    Menubar
-    Canvas
+    Sidestrip.sidestrip
+    Tabbar.tabbar
+    Menubar.menubar
+    Canvas.canvas
 </template>
 
 <style lang="scss">
@@ -24,5 +24,30 @@
       "sidestrip canvas";
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto 1fr;
+      background-color: var(--color-bg-8);
+
+    > :global(.sidestrip) {
+      grid-area: sidestrip;
+      width: 3rem;
+      height: 100%;
+    }
+
+    > :global(.tabbar) {
+      grid-area: tabbar;
+      width: 100%;
+      height: 3rem;
+    }
+
+    > :global(.menubar) {
+      grid-area: menubar;
+      width: 100%;
+      height: 2.5rem;
+    }
+
+    > :global(.canvas) {
+      grid-area: canvas;
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

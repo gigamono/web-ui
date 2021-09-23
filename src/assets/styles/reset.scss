@@ -1,9 +1,9 @@
 // === For Svelte ===
 
 :global(body) {
-  all: initial;
+  all: unset;
 
-  :global(*) {
+  :not(svg) { // All but svg.
     all: unset;
   }
 }

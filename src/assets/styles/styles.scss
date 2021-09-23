@@ -1,8 +1,90 @@
 // === Reset ===
+
 @import "./reset.scss";
 
 // === Icons ===
 
+$icons: ();
+
+@each $iconName in $icons {
+  .icon-#{$iconName} {
+    mask-image: url("~@/assets/icons/icon-#{$iconName}.svg");
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    width: inherit;
+    height: inherit;
+    background-color: black;
+  }
+}
+
 // === Fonts ===
 
+$fonts: (
+  primary: PTSans,
+  text: Inter,
+);
+
+@each $key, $fontName in $fonts {
+  @font-face {
+    font-family: $fontName;
+    src: url("~@/assets/fonts/#{$fontName}.woff2");
+  }
+}
+
+:root {
+  @each $key, $fontName in $fonts {
+    --font-#{$key}: "#{$fontName}";
+  }
+}
+
 // === Colors ===
+:root {
+  --color-primary-0: #312766;
+  --color-primary-1: #4a3a99;
+  --color-primary-2: #624ecc;
+  --color-primary-3: #7b61ff;
+  --color-primary-4: #9581ff;
+  --color-primary-5: #b0a0ff;
+  --color-primary-6: #cac0ff;
+  --color-primary-7: #e5dfff;
+  --color-primary-8: #f2efff;
+  --color-primary: var(--color-primary-4);
+
+  --color-text-0: #000000;
+  --color-text-1: #21242a;
+  --color-text-2: #25292f;
+  --color-text-3: #292d34;
+  --color-text-4: #3e4248;
+  --color-text-5: #54575d;
+  --color-text-6: #696c71;
+  --color-text-7: #7f8185;
+  --color-text-8: #94969a;
+  --color-text: var(--color-text-4);
+
+  --color-bg-0: #c8cacc;
+  --color-bg-1: #d1d3d5;
+  --color-bg-2: #dadcde;
+  --color-bg-3: #e3e5e7;
+  --color-bg-4: #edeff1;
+  --color-bg-5: #f1f2f4;
+  --color-bg-6: #f6f7f8;
+  --color-bg-7: #fafafa;
+  --color-bg-8: #ffffff;
+  --color-bg: var(--color-bg-4);
+
+  --color-primarylight-0: #f2efff;
+  --color-primarylight-1: #f3f1ff;
+  --color-primarylight-2: #f5f2ff;
+  --color-primarylight-3: #f6f4ff;
+  --color-primarylight-4: #f7f5ff;
+  --color-primarylight-5: #f9f7ff;
+  --color-primarylight-6: #faf9ff;
+  --color-primarylight-7: #fbfaff;
+  --color-primarylight-8: #fcfcff;
+  --color-primarylight: var(--color-primarylight-4);
+
+  --color-brand-primary: #5c88ff;
+  --color-brand-secondary: #e887ff;
+}
+
+// === Shadows ===
