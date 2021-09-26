@@ -16,18 +16,22 @@
 
 <style lang="scss">
   #sidestrip {
+    border: var(--border-frame);
+
     > .brand-section {
       display: flex;
-      width: 3rem;
-      height: 3rem;
+      width: 100%;
+      height: var(--size-frame-main);
       justify-content: center;
+      border-bottom: var(--border-frame);
       align-items: center;
-      border: 0.0625rem solid var(--color-bg-4);
       background-color: var(--color-bg-6);
 
       > :global(.brand) {
-        height: 2rem;
-        width: 2rem;
+        --size-brand: 1.813rem;
+
+        height: var(--size-brand);
+        width: var(--size-brand);
       }
     }
   }

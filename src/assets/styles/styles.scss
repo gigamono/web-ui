@@ -87,4 +87,17 @@ $fonts: (
   --color-brand-secondary: #e887ff;
 }
 
+// === Sizes ===
+
+:root {
+  --size-frame-main: 2.75rem;
+  --size-frame-menubar: 2.5rem;
+}
+
+// === Border ===
+
+:root {
+  --border-frame: 0.094rem solid var(--color-bg-4);
+}
+
 // === Shadows ===

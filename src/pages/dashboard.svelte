@@ -28,20 +28,20 @@
 
     > :global(.sidestrip) {
       grid-area: sidestrip;
-      width: 3rem;
+      width: var(--size-frame-main);
       height: 100%;
     }
 
     > :global(.tabbar) {
       grid-area: tabbar;
       width: 100%;
-      height: 3rem;
+      height: var(--size-frame-main);
     }
 
     > :global(.menubar) {
       grid-area: menubar;
       width: 100%;
-      height: 2.5rem;
+      height: var(--size-frame-menubar);
     }
 
     > :global(.canvas) {

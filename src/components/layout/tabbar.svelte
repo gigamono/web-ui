@@ -6,7 +6,8 @@
 
 <style lang="scss">
   #tabbar {
-    border: 0.0625rem solid var(--color-bg-4);
+    border-top: var(--border-frame);
+    border-bottom: var(--border-frame);
     background-color: var(--color-bg-6);
   }
 </style>

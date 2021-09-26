@@ -6,6 +6,6 @@
 
 <style lang="scss">
   #menubar {
-    border: 0.0625rem solid var(--color-bg-4);
+    border-bottom: var(--border-frame);
   }
 </style>
