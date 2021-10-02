@@ -1,5 +1,23 @@
 <script lang="ts">
   import Brand from "../ui/brand.svelte";
+  import Shortcut from "../ui/shortcut.svelte";
+  import List from "../ui/list.svelte";
+
+  // TODO
+  const subappShortcuts = [
+    { name: "deck", spec: {} },
+    { name: "frontend", spec: {} },
+    { name: "backend", spec: {} },
+    { name: "base", spec: {} },
+  ];
+  const customShortcuts = [
+    { name: "test", spec: {} },
+    { name: "test", spec: {} },
+  ];
+  const systemShortcuts = [
+    { name: "test", spec: {} },
+    { name: "test", spec: {} },
+  ];
 </script>
 
 <template lang="pug">
@@ -7,16 +25,19 @@
     .brand-section
       Brand.brand
 
-    .subapp-section
+    List.subapp-shortcuts(items="{subappShortcuts}", component="{Shortcut}")
 
-    .shortcut-section
+    List.custom-shortcuts(items="{customShortcuts}", component="{Shortcut}")
 
-    .system-section
+    List.system-shortcuts(items="{systemShortcuts}", component="{Shortcut}")
 </template>
 
 <style lang="scss">
   #sidestrip {
+    display: flex;
+    flex-direction: column;
     border: var(--border-frame);
+    height: 100%;
 
     > .brand-section {
       display: flex;
@@ -33,6 +54,26 @@
         height: var(--size-brand);
         width: var(--size-brand);
       }
+    }
+
+    > :global(.subapp-shortcuts),
+    > :global(.custom-shortcuts),
+    > :global(.system-shortcuts) {
+      --spacing-shortcut: 1.25rem;
+
+      display: flex;
+      flex-direction: column;
+      border-bottom: var(--border-frame);
+      align-items: center;
+      padding: var(--spacing-shortcut) 0;
+
+      > :global(:not(:first-child)) {
+        margin-top: var(--spacing-shortcut);
+      }
+    }
+
+    > :global(.custom-shortcuts)  {
+      flex-grow: 1;
     }
   }
 </style>

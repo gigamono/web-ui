@@ -6,4 +6,8 @@
   :not(svg) { // All but svg.
     all: unset;
   }
+
+  :global(li) {
+    all: unset;
+  }
 }

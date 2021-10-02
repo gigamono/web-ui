@@ -2,14 +2,17 @@
 </script>
 
 <template lang="pug">
-  #sidestrip Sidestrip
+  .shortcut
 </template>
 
 <style lang="scss">
-  #sidestrip {
+  .shortcut {
+    --size-shortcut: 2rem;
+
     grid-area: sidestrip;
-    width: 3rem;
-    height: 100%;
-    background-color: yellow;
+    width: var(--size-shortcut);
+    height: var(--size-shortcut);
+    background-color: var(--color-primary);
+    border-radius: var(--radius-primary);
   }
 </style>
