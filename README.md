@@ -6,7 +6,7 @@
 
 <h1 align="center">Web UI</h1>
 
-`web-ui` is the user interface of the of the Gigamono framework.
+`web-ui` is the web user interface for managing the Gigamono framework and it also provides access to apps and extensions hosted on the platform.
 
 > Information provided here is for folks working on this package. If your goal is to get started with the Gigamono framework, check the [Gigamono repo](https://github.com/gigamono/gigamono) on how to do that.
 
@@ -16,23 +16,28 @@
 
 1. [Getting Started](#getting-started)
 
-2. [Single-Page App Mode](#spa-modex)
+2. [Single-Page App Mode](#spa-mode)
 
 ##
 
 ### Getting Started <a name="getting-started" />
 
-- Install the dependencies...
+- Install the dependencies
 
   ```bash
-  cd svelte-app
-  npm install
+  yarn
   ```
 
-- Then start [Rollup](https://rollupjs.org):
+- Start dev server.
 
   ```bash
-  npm run dev
+  yarn dev
+  ```
+
+- Navigate to `http://localhost:5000` in your browser.
+
+  ```bash
+  open http://localhost:5000
   ```
 
 ##
