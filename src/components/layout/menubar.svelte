@@ -1,11 +1,11 @@
 <script lang="ts"></script>
 
 <template lang="pug">
-  #menubar(class="{$$props.class}")
+  #menu-bar(class="{$$props.class}")
 </template>
 
 <style lang="scss">
-  #menubar {
+  #menu-bar {
     border-bottom: var(--border-frame);
   }
 </style>

@@ -21,7 +21,7 @@
 </script>
 
 <template lang="pug">
-  #sidestrip(class="{$$props.class}")
+  #side-strip(class="{$$props.class}")
     .brand-section
       Brand.brand
 
@@ -33,7 +33,7 @@
 </template>
 
 <style lang="scss">
-  #sidestrip {
+  #side-strip {
     display: flex;
     flex-direction: column;
     border: var(--border-frame);

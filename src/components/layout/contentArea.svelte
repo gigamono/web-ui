@@ -1,10 +1,10 @@
 <script lang="ts"></script>
 
 <template lang="pug">
-  #canvas(class="{$$props.class}")
+  #content-area(class="{$$props.class}")
 </template>
 
 <style lang="scss">
-  #canvas {
+  #content-area {
   }
 </style>

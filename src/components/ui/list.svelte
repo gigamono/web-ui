@@ -1,8 +1,8 @@
 <script lang="ts">
 import { compute_rest_props } from "svelte/internal";
 
-  export let items: any[] = [];
-  export let component: any;
+export let items: any[] = [];
+export let component: any;
 </script>
 
 <template lang="pug">

@@ -1,16 +1,16 @@
 <script lang="ts">
-  import Canvas from "../components/layout/canvas.svelte";
-  import Menubar from "../components/layout/menubar.svelte";
-  import Sidestrip from "../components/layout/sidestrip.svelte";
-  import Tabbar from "../components/layout/tabbar.svelte";
+  import ContentArea from "../components/layout/contentArea.svelte";
+  import MenuBar from "../components/layout/menuBar.svelte";
+  import SideStrip from "../components/layout/sideStrip.svelte";
+  import TabBar from "../components/layout/tabBar.svelte";
 </script>
 
 <template lang="pug">
   #dashboard
-    Sidestrip.sidestrip
-    Tabbar.tabbar
-    Menubar.menubar
-    Canvas.canvas
+    SideStrip.side-strip
+    TabBar.tab-bar
+    MenuBar.menu-bar
+    ContentArea.content-area
 </template>
 
 <style lang="scss">
@@ -19,33 +19,33 @@
     display: grid;
     height: 100%;
     grid-template-areas:
-      "sidestrip tabbar"
-      "sidestrip menubar"
-      "sidestrip canvas";
+      "side_strip tab_bar"
+      "side_strip menu_bar"
+      "side_strip content_area";
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto 1fr;
       background-color: var(--color-bg-8);
 
-    > :global(.sidestrip) {
-      grid-area: sidestrip;
+    > :global(.side-strip) {
+      grid-area: side_strip;
       width: var(--size-frame-main);
       height: 100%;
     }
 
-    > :global(.tabbar) {
-      grid-area: tabbar;
+    > :global(.tab-bar) {
+      grid-area: tab_bar;
       width: 100%;
       height: var(--size-frame-main);
     }
 
-    > :global(.menubar) {
-      grid-area: menubar;
+    > :global(.menu-bar) {
+      grid-area: menu_bar;
       width: 100%;
       height: var(--size-frame-menubar);
     }
 
-    > :global(.canvas) {
-      grid-area: canvas;
+    > :global(.content-area) {
+      grid-area: content_area;
       width: 100%;
       height: 100%;
     }

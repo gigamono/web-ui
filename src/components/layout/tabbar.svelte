@@ -1,11 +1,11 @@
 <script lang="ts"></script>
 
 <template lang="pug">
-  #tabbar(class="{$$props.class}")
+  #tab-bar(class="{$$props.class}")
 </template>
 
 <style lang="scss">
-  #tabbar {
+  #tab-bar {
     border-top: var(--border-frame);
     border-bottom: var(--border-frame);
     background-color: var(--color-bg-6);
