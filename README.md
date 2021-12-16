@@ -25,13 +25,13 @@
 - Install the dependencies
 
   ```bash
-  yarn
+  npm install
   ```
 
 - Start dev server.
 
   ```bash
-  yarn dev
+  npm run build
   ```
 
 - Navigate to `http://localhost:5000` in your browser.

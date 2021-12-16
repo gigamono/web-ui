@@ -3,7 +3,7 @@
   import Shortcut from "../ui/shortcut.svelte";
   import List from "../ui/list.svelte";
 
-  // TODO
+  // TODO(appcypher)
   const subappShortcuts = [
     { name: "deck", spec: {} },
     { name: "frontend", spec: {} },
