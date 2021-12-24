@@ -1,6 +1,3 @@
-<script lang="ts">
-</script>
-
 <template lang="pug">
   .shortcut
 </template>

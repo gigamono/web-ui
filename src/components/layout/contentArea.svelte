@@ -1,6 +1,3 @@
-<script lang="ts">
-</script>
-
 <template lang="pug">
   #content-area(class="{$$props.class}")
 </template>

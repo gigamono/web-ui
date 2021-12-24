@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Brand from "../ui/brand.svelte";
-  import Shortcut from "../ui/shortcut.svelte";
-  import List from "../ui/list.svelte";
+  import Brand from "$ui/brand.svelte";
+  import Shortcut from "$ui/shortcut.svelte";
+  import List from "$ui/list.svelte";
 
   // TODO(appcypher)
   const subappShortcuts = [

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import ContentArea from "../components/layout/contentArea.svelte";
-  import MenuBar from "../components/layout/menuBar.svelte";
-  import SideStrip from "../components/layout/sideStrip.svelte";
-  import TabBar from "../components/layout/tabBar.svelte";
+  import ContentArea from "$layout/contentArea.svelte";
+  import MenuBar from "$layout/menuBar.svelte";
+  import SideStrip from "$layout/sideStrip.svelte";
+  import TabBar from "$layout/tabBar.svelte";
 </script>
 
 <template lang="pug">
@@ -14,8 +14,9 @@
 </template>
 
 <style lang="scss">
+  @import "../assets/styles/styles.scss";
+
   #dashboard {
-    background-color: yellowgreen;
     display: grid;
     height: 100%;
     grid-template-areas:

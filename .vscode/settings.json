@@ -1,10 +1,10 @@
 {
-  "[svelte]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2
-  },
-  "[scss]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2
-  }
+	"[svelte]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2
+	},
+	"[scss]": {
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2
+	}
 }

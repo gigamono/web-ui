@@ -16,7 +16,6 @@
 
 1. [Getting Started](#getting-started)
 
-2. [Single-Page App Mode](#spa-mode)
 
 ##
 
@@ -31,23 +30,13 @@
 - Start dev server.
 
   ```bash
-  npm run build
+  npm run dev -- open
   ```
 
-- Navigate to `http://localhost:5000` in your browser.
+- Navigate to `http://localhost:3000` in your browser.
 
   ```bash
-  open http://localhost:5000
+  open http://localhost:3000
   ```
 
 ##
-
-### Single-Page App Mode <a name="spa-mode" />
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for _any_ path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```

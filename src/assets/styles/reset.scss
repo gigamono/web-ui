@@ -1,13 +1,21 @@
 // === For Svelte ===
+:global(html) {
+	height: 100%;
 
-:global(body) {
-  all: unset;
+	:global(body) {
+		all: unset;
 
-  :not(svg) { // All but svg.
-    all: unset;
-  }
+		:not(svg) {
+			// All but svg.
+			all: unset;
+		}
 
-  :global(li) {
-    all: unset;
-  }
+		:global(li) {
+			all: unset;
+		}
+
+    :global(#svelte) {
+      height: 100%;
+    }
+	}
 }

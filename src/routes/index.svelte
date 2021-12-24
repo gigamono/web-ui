@@ -2,5 +2,9 @@
 </script>
 
 <template lang="pug">
-  iframe(title="subapp")
+  div
+    | This is Log In Page
 </template>
+
+<style lang="scss"></style>
+

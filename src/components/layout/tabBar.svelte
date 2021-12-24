@@ -1,5 +1,3 @@
-<script lang="ts"></script>
-
 <template lang="pug">
   #tab-bar(class="{$$props.class}")
 </template>
