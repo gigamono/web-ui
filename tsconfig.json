@@ -28,7 +28,8 @@
 			"$layout/*": ["src/components/layout/*"],
 			"$ui/*": ["src/components/ui/*"],
 			"$stores/*": ["src/stores/*"],
-			"$actions/*": ["src/actions/*"]
+			"$actions/*": ["src/actions/*"],
+			"$application/*": ["src/application/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]

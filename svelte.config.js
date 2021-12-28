@@ -19,7 +19,8 @@ const config = {
 					$layout: resolve('./src/components/layout'),
 					$ui: resolve('./src/components/ui'),
 					$stores: resolve('./src/stores'),
-					$actions: resolve('./src/actions')
+					$actions: resolve('./src/actions'),
+					$application: resolve('./src/application')
 				}
 			}
 		}
