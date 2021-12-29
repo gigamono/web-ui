@@ -2,29 +2,52 @@
 	export let filledIconUrl: string = null;
 	export let outlineIconUrl: string = null;
 	export let name: string = null;
+
+	const loadApp = () => {
+		// TODO(appcypher): Load the app
+	};
 </script>
 
 <template lang="pug">
-  .shortcut
-    img(
-      src="{filledIconUrl}"
-      alt="{name}"
-    )
+	button.shortcut(class="{$$props.class}" on:click|preventDefault="{loadApp}")
+		div.icon(style=`
+			--icon-outline-url: url("{outlineIconUrl}");
+			--icon-filled-url: url("{filledIconUrl}");
+			`
+		)
 </template>
 
 <style lang="scss">
-	.shortcut {
+	@import '../../assets/styles/styles.scss';
+
+	button.shortcut {
 		--size-shortcut: 2rem;
 		--size-shortcut-icon: 1rem;
 
 		width: var(--size-shortcut);
 		height: var(--size-shortcut);
-		background-color: var(--color-primary);
 		border-radius: var(--radius-primary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-		> img {
+		> .icon {
+			@include icon-mask(var(--icon-outline-url));
+
 			width: var(--size-shortcut-icon);
 			height: var(--size-shortcut-icon);
+			background-color: var(--color-text-5);
+		}
+
+		&:hover {
+			cursor: pointer;
+			background-color: var(--color-primary-3);
+
+			> .icon {
+				@include icon-mask-hover(var(--icon-filled-url));
+
+				background-color: var(--color-bg-8);
+			}
 		}
 	}
 </style>

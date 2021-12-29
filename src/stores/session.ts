@@ -3,28 +3,46 @@ import { getEndpoint } from '../application/endpoints/utils';
 import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 
-type Session = {
-	space: string;
-	project: string;
-	app: string;
-	tab: string;
+type ActiveApp = {
+	name: string;
 };
 
-const session: Writable<Session> = writable(null);
-
-const getSession = derived(session, $session => $session);
-
-const fetchSession = async (): Promise<void> => {
-	const endpoint = getEndpoint('/system/session');
-
-	// Fetch content from endpoint.
-	const response = await fetch(endpoint);
-	const payload: Payload<Session> = await response.json();
-
-	// Set value to payload data if it exists.
-	if (payload.data) {
-		session.set(payload.data);
-	}
+type SessionState = {
+	activeApps: ActiveApp[];
+	focusSpace: string;
+	focusProject: string;
+	focusApp: string;
+	focusTab: string;
 };
 
-export { getSession, fetchSession };
+type SessionProfile = {
+	username: string;
+	email: string;
+	avatar: string;
+};
+
+const sessionState: Writable<SessionState> = writable(null);
+const sessionProfile: Writable<SessionProfile> = writable(null);
+
+const getSessionState = derived(sessionState, ($val) => $val);
+const getSessionProfile = derived(sessionProfile, ($val) => $val);
+
+const fetchSession = (rx: Writable<SessionState | SessionProfile>, url: string) => {
+	return async (): Promise<void> => {
+		const endpoint = getEndpoint(url);
+
+		// Fetch content from endpoint.
+		const response = await fetch(endpoint);
+		const payload: Payload<SessionState> = await response.json();
+
+		// Set value to payload data if it exists.
+		if (payload.data) {
+			rx.set(payload.data);
+		}
+	};
+};
+
+const fetchSessionState = fetchSession(sessionState, '/system/session');
+const fetchSessionProfile = fetchSession(sessionProfile, '/system/session?profile=true');
+
+export { getSessionState, getSessionProfile, fetchSessionState, fetchSessionProfile };

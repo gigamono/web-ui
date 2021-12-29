@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Brand from '$ui/brand.svelte';
 	import Shortcut from '$ui/shortcut.svelte';
-	import { getApps } from '$stores/apps';
+	import { getSessionState } from '$stores/session';
 	import { getAppIconEndpoint } from '$application/endpoints/apps';
 	import { onDestroy } from 'svelte';
 
@@ -15,11 +15,15 @@
 	let customShortcuts: Shortcut[] = [];
 	let systemShortcuts: Shortcut[] = [];
 
-	$: appShortcuts = $getApps.map((app) => ({
-		name: app.name,
-		filledIconUrl: getAppIconEndpoint(app.name, false),
-		outlineIconUrl: getAppIconEndpoint(app.name)
-	}));
+	$: {
+		if ($getSessionState != null) {
+			appShortcuts = $getSessionState.activeApps.map((app) => ({
+				name: app.name,
+				filledIconUrl: getAppIconEndpoint(app.name, false),
+				outlineIconUrl: getAppIconEndpoint(app.name)
+			}));
+		}
+	}
 </script>
 
 <template lang="pug">
@@ -27,22 +31,22 @@
     .brand-section
       Brand.brand
 
-    li.shortcuts: +each("appShortcuts as el (el.name)")
-      Shortcut(
+    li.container: +each("appShortcuts as el (el.name)")
+      Shortcut.shortcut(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
       )
 
-    li.shortcuts.mid: +each("customShortcuts as el (el.name)")
-      Shortcut(
+    li.container.mid: +each("customShortcuts as el (el.name)")
+      Shortcut.shortcut(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
       )
 
-    li.shortcuts: +each("systemShortcuts as el (el.name)")
-      Shortcut(
+    li.container: +each("systemShortcuts as el (el.name)")
+      Shortcut.shortcut(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
@@ -65,7 +69,7 @@
 			align-items: center;
 			background-color: var(--color-bg-6);
 
-			> .brand {
+			> :global(.brand) {
 				--size-brand: 1.813rem;
 
 				height: var(--size-brand);
@@ -73,7 +77,7 @@
 			}
 		}
 
-		> .shortcuts {
+		> .container {
 			--spacing-shortcut: 1.25rem;
 
 			display: flex;
@@ -82,7 +86,7 @@
 			align-items: center;
 			padding: var(--spacing-shortcut) 0;
 
-			> :not(:first-child) {
+			> :global(:not(:first-child)) {
 				margin-top: var(--spacing-shortcut);
 			}
 
