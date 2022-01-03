@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Brand from '$ui/brand.svelte';
-	import Shortcut from '$ui/shortcut.svelte';
-	import { getSessionState } from '$stores/session';
+	import ShortcutButton from '$ui/shortcutButton.svelte';
+	import { sessionState } from '$stores/session';
 	import { getAppIconEndpoint } from '$application/endpoints/apps';
 	import { onDestroy } from 'svelte';
 
@@ -11,13 +11,21 @@
 		name: string;
 	};
 
-	let appShortcuts: Shortcut[] = [];
+	// State.
+	let userAppShortcuts: Shortcut[] = [];
 	let customShortcuts: Shortcut[] = [];
-	let systemShortcuts: Shortcut[] = [];
+	let systemAppShortcuts: Shortcut[] = [];
 
+	// Subscriptions.
 	$: {
-		if ($getSessionState != null) {
-			appShortcuts = $getSessionState.activeApps.map((app) => ({
+		if ($sessionState) {
+			userAppShortcuts = $sessionState.activeUserApps.map((app) => ({
+				name: app.name,
+				filledIconUrl: getAppIconEndpoint(app.name, false),
+				outlineIconUrl: getAppIconEndpoint(app.name)
+			}));
+
+			systemAppShortcuts = $sessionState.activeSystemApps.map((app) => ({
 				name: app.name,
 				filledIconUrl: getAppIconEndpoint(app.name, false),
 				outlineIconUrl: getAppIconEndpoint(app.name)
@@ -31,22 +39,22 @@
     .brand-section
       Brand.brand
 
-    li.container: +each("appShortcuts as el (el.name)")
-      Shortcut.shortcut(
+    li.container: +each("userAppShortcuts as el (el.name)")
+      ShortcutButton(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
       )
 
     li.container.mid: +each("customShortcuts as el (el.name)")
-      Shortcut.shortcut(
+      ShortcutButton(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
       )
 
-    li.container: +each("systemShortcuts as el (el.name)")
-      Shortcut.shortcut(
+    li.container: +each("systemAppShortcuts as el (el.name)")
+      ShortcutButton(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
         name="{el.name}"
@@ -63,7 +71,7 @@
 		> .brand-section {
 			display: flex;
 			width: 100%;
-			height: var(--size-frame-main);
+			height: calc(var(--size-frame) - 0.0625rem);
 			justify-content: center;
 			border-bottom: var(--border-frame);
 			align-items: center;

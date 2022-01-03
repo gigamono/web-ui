@@ -20,7 +20,9 @@ const config = {
 					$ui: resolve('./src/components/ui'),
 					$stores: resolve('./src/stores'),
 					$actions: resolve('./src/actions'),
-					$application: resolve('./src/application')
+					$assets: resolve('./src/assets'),
+					$application: resolve('./src/application'),
+					$components: resolve('./src/components')
 				}
 			}
 		}

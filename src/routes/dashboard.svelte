@@ -1,19 +1,55 @@
 <script lang="ts">
-	import NoAppSelectedIllustration from '../assets/illustrations/no_app_selected.svg';
 	import ContentArea from '$layout/contentArea.svelte';
 	import MenuBar from '$layout/menuBar.svelte';
+	import ContextMenu from '$ui/contextMenu.svelte';
 	import SideStrip from '$layout/sideStrip.svelte';
 	import TabBar from '$layout/tabBar.svelte';
-	import { fetchApps } from '$stores/apps';
+	import { sessionState } from '$stores/session';
 	import { fetchSessionState, fetchSessionProfile } from '$stores/session';
 	import { onDestroy } from 'svelte';
+	import ProjectModal from '$layout/projectModal.svelte';
+	import {
+		openAppEvent,
+		closeProjectModalEvent,
+		openContextMenuEvent,
+		closeContextMenuEvent
+	} from '$stores/events';
 
-	$: {
-		fetchSessionState();
-		fetchSessionProfile();
-	}
+	// Init.
+	(async () => {
+		await fetchSessionState();
+		await fetchSessionProfile();
+	})();
 
-	let appSelected = false;
+	// State.
+	let appSelected = $sessionState?.selectedApp;
+	let showProjectModal = false;
+	let showContextMenu = false;
+
+	// Subscriptions.
+	openAppEvent.subscribe(() => {
+		if ($openAppEvent) {
+			showProjectModal = true;
+		}
+	});
+
+	closeProjectModalEvent.subscribe(() => {
+		if ($closeProjectModalEvent) {
+			showProjectModal = false;
+		}
+	});
+
+	openContextMenuEvent.subscribe(() => {
+		if ($openContextMenuEvent) {
+			showContextMenu = true;
+		}
+	});
+
+	closeContextMenuEvent.subscribe(() => {
+		if ($closeContextMenuEvent) {
+			showContextMenu = false;
+		}
+	});
 </script>
 
 <template lang="pug">
@@ -26,19 +62,22 @@
 
 		+if("appSelected")
 			MenuBar.menu-bar
-			ContentArea.content-area
 
-		+if("!appSelected")
-			.no-app-selected-container
-				.title You have not selected any app
-				.body Please select an app from the sidebar to get started
-				img(src="{NoAppSelectedIllustration}" alt="no app selected")
+		ContentArea.content-area
+
+		+if("showProjectModal")
+			ProjectModal.project-modal
+
+		+if("showContextMenu")
+			ContextMenu.context-menu(menu="{$openContextMenuEvent}")
 </template>
 
 <style lang="scss">
-	@import '../assets/styles/styles.scss';
+	@import '../assets/styles/variables.scss';
 
 	#dashboard {
+		--size-frame-menubar: 2.5rem;
+
 		display: grid;
 		height: 100%;
 		grid-template-areas:
@@ -51,19 +90,17 @@
 
 		> :global(.side-strip) {
 			grid-area: side_strip;
-			width: var(--size-frame-main);
+			width: var(--size-frame);
 			height: 100%;
 		}
 
 		> :global(.tab-bar) {
 			grid-area: tab_bar;
 			width: 100%;
-			height: var(--size-frame-main);
+			height: var(--size-frame);
 		}
 
 		> :global(.menu-bar) {
-			--size-frame-menubar: 2.5rem;
-
 			grid-area: menu_bar;
 			width: 100%;
 			height: var(--size-frame-menubar);
@@ -75,29 +112,12 @@
 			height: 100%;
 		}
 
-		> .no-app-selected-container {
-			grid-area: content_area;
-			background-color: var(--color-bg-8);
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+		> :global(.project-modal) {
+			z-index: 0;
+		}
 
-			> .title {
-				font-size: 1.125rem;
-				font-weight: 900;
-				color: var(--color-text-0);
-				margin-top: 8rem;
-			}
-
-			> .body {
-				color: var(--color-text-6);
-				margin-top: 1.75rem;
-			}
-
-			> img {
-				height: 20rem;
-				margin-top: 4.75rem;
-			}
+		> :global(.context-menu) {
+			z-index: 1;
 		}
 	}
 </style>

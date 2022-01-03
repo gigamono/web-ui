@@ -1,15 +1,36 @@
 <script lang="ts">
-	export let filledIconUrl: string = null;
-	export let outlineIconUrl: string = null;
-	export let name: string = null;
+	import { onDestroy } from 'svelte';
+	import { setOpenAppEvent } from '$stores/events';
+	import { closeProjectModalEvent } from '$stores/events';
 
-	const loadApp = () => {
-		// TODO(appcypher): Load the app
+	// Props.
+	export let filledIconUrl = '';
+	export let outlineIconUrl = '';
+	export let name = '';
+
+	// State.
+	let active = false;
+
+	// Handlers.
+	const handleClick = (event: Event) => {
+		setOpenAppEvent(event, name);
+		active = true;
 	};
+
+	// Subscriptions.
+	const unsubCloseProjectModalEvent = closeProjectModalEvent.subscribe(() => {
+		active = false;
+	});
+
+	// Cleanup
+	onDestroy(unsubCloseProjectModalEvent);
 </script>
 
 <template lang="pug">
-	button.shortcut(class="{$$props.class}" on:click|preventDefault="{loadApp}")
+	button.shortcut(
+		class:active="{active}",
+		on:click|preventDefault="{handleClick}"
+	)
 		div.icon(style=`
 			--icon-outline-url: url("{outlineIconUrl}");
 			--icon-filled-url: url("{filledIconUrl}");
@@ -18,7 +39,7 @@
 </template>
 
 <style lang="scss">
-	@import '../../assets/styles/styles.scss';
+	@import '../../assets/styles/variables.scss';
 
 	button.shortcut {
 		--size-shortcut: 2rem;
@@ -39,7 +60,8 @@
 			background-color: var(--color-text-5);
 		}
 
-		&:hover {
+		&:hover,
+		&.active {
 			cursor: pointer;
 			background-color: var(--color-primary-3);
 

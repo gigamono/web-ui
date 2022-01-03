@@ -5,19 +5,17 @@ import type { Payload } from './types';
 
 type Project = { name: string; space: string };
 
-const projects: Writable<Project[]> = writable([]);
+const _projects: Writable<Project[]> = writable([]);
 
-const getProjects = derived(projects, ($projects) => $projects);
+const projects = derived(_projects, ($val) => $val);
 
-const fetchProjects = async (space: string): Promise<void> => {
-	// Fetch content from endpoint.
+const fetchProjects = async (space?: string): Promise<void> => {
 	const response = await fetch(getProjectsEndpoint(space));
 	const payload: Payload<Project[]> = await response.json();
 
-	// Set value to payload data if it exists.
 	if (payload.data) {
-		projects.set(payload.data);
+		_projects.set(payload.data);
 	}
 };
 
-export { getProjects, fetchProjects };
+export { projects, fetchProjects };

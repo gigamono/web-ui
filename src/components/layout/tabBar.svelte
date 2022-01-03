@@ -1,12 +1,16 @@
 <script lang="ts">
-	import BellIcon from '../../assets/icons/bell.svg';
-	import { getSessionProfile } from '$stores/session';
+	import BellIcon from '$assets/icons/bell.svg';
+	import { sessionProfile } from '$stores/session';
 	import { getProfileAvatarEndpoint } from '$application/endpoints/session';
 
+	// State.
 	let avatarUrl: string = null;
 
+	// Subscriptions.
 	$: {
-		avatarUrl = getProfileAvatarEndpoint();
+		if ($sessionProfile) {
+			avatarUrl = getProfileAvatarEndpoint($sessionProfile.avatar);
+		}
 	}
 </script>
 
@@ -39,8 +43,6 @@
 		}
 
 		> .profile-section {
-			--sizing-avatar: 2rem;
-
 			height: 100%;
 			display: flex;
 			justify-content: flex-end;
@@ -48,30 +50,31 @@
 			margin-right: var(--spacing-padding);
 
 			> img.notification {
-				--sizing-notification: 1.3125rem;
+				--size-notification: 1.3125rem;
 
-				width: var(--sizing-notification);
-				height: var(--sizing-notification);
+				width: var(--size-notification);
+				height: var(--size-notification);
 				margin-right: 0.75rem;
 			}
 
 			> .profile-avatar {
+				--size-avatar: 1.8rem;
+
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				position: relative;
-				box-sizing: border-box;
 
 				> .halo {
-					height: calc(var(--sizing-avatar) * 1.1);
-					width: calc(var(--sizing-avatar) * 1.1);
-					border: 0.125rem solid var(--color-primary);
+					height: calc(var(--size-avatar) * 1.1);
+					width: calc(var(--size-avatar) * 1.1);
+					border: 0.075rem solid var(--color-primary);
 					border-radius: 50%;
 				}
 
 				> img {
-					height: var(--sizing-avatar);
-					width: var(--sizing-avatar);
+					height: var(--size-avatar);
+					width: var(--size-avatar);
 					border-radius: 50%;
 					position: absolute;
 				}

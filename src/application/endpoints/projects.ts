@@ -1,7 +1,8 @@
 import { getEndpoint } from './utils';
 
-const getProjectsEndpoint = (space: string): string => {
-	return getEndpoint(`/system/projects?space=${space}`);
+const getProjectsEndpoint = (space?: string): string => {
+	const spaceQuery = space ? `?space=${space}` : '';
+	return getEndpoint(`/system/projects${spaceQuery}`);
 };
 
 export { getProjectsEndpoint };

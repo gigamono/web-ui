@@ -8,9 +8,9 @@ type App = {
 	installed: string;
 };
 
-const apps: Writable<App[]> = writable([]);
+const _apps: Writable<App[]> = writable([]);
 
-const getApps = derived(apps, $apps => $apps);
+const apps = derived(_apps, $val => $val);
 
 const fetchApps = async (installed: boolean): Promise<void> => {
 	// Fetch content from endpoint.
@@ -19,8 +19,8 @@ const fetchApps = async (installed: boolean): Promise<void> => {
 
 	// Set value to payload data if it exists.
 	if (payload.data) {
-		apps.set(payload.data);
+		_apps.set(payload.data);
 	}
 };
 
-export { fetchApps, getApps };
+export { fetchApps, apps };

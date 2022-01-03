@@ -3,16 +3,17 @@ import { getEndpoint } from '../application/endpoints/utils';
 import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 
-type ActiveApp = {
+type App = {
 	name: string;
 };
 
 type SessionState = {
-	activeApps: ActiveApp[];
-	focusSpace: string;
-	focusProject: string;
-	focusApp: string;
-	focusTab: string;
+	activeUserApps: App[];
+	activeSystemApps: App[];
+	selectedSpace: string;
+	selectedProject: string;
+	selectedApp: string;
+	selectedTab: string;
 };
 
 type SessionProfile = {
@@ -21,11 +22,11 @@ type SessionProfile = {
 	avatar: string;
 };
 
-const sessionState: Writable<SessionState> = writable(null);
-const sessionProfile: Writable<SessionProfile> = writable(null);
+const _sessionState: Writable<SessionState> = writable(null);
+const _sessionProfile: Writable<SessionProfile> = writable(null);
 
-const getSessionState = derived(sessionState, ($val) => $val);
-const getSessionProfile = derived(sessionProfile, ($val) => $val);
+const sessionState = derived(_sessionState, ($val) => $val);
+const sessionProfile = derived(_sessionProfile, ($val) => $val);
 
 const fetchSession = (rx: Writable<SessionState | SessionProfile>, url: string) => {
 	return async (): Promise<void> => {
@@ -42,7 +43,7 @@ const fetchSession = (rx: Writable<SessionState | SessionProfile>, url: string) 
 	};
 };
 
-const fetchSessionState = fetchSession(sessionState, '/system/session');
-const fetchSessionProfile = fetchSession(sessionProfile, '/system/session?profile=true');
+const fetchSessionState = fetchSession(_sessionState, '/system/session');
+const fetchSessionProfile = fetchSession(_sessionProfile, '/system/session?profile=true');
 
-export { getSessionState, getSessionProfile, fetchSessionState, fetchSessionProfile };
+export { sessionState, sessionProfile, fetchSessionState, fetchSessionProfile };

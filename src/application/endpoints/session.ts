@@ -1,6 +1,6 @@
 import { getEndpoint } from './utils';
 
-const getProfileAvatarEndpoint = (): string =>
-	getEndpoint(`/static?path=system/session/data/avatar.png`);
+const getProfileAvatarEndpoint = (path: string): string =>
+	getEndpoint(`/system/session/static?path=${path}`);
 
 export { getProfileAvatarEndpoint };

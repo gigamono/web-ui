@@ -10,12 +10,12 @@ type Space = {
 	tab: string;
 };
 
-const spaces: Writable<Space[]> = writable([]);
+const _spaces: Writable<Space[]> = writable([]);
 
-const getSpaces = derived(spaces, $spaces => $spaces);
+const spaces = derived(_spaces, $val => $val);
 
 const fetchSpaces = async (): Promise<void> => {
-	const endpoint = getEndpoint('/system/spaces');
+	const endpoint = getEndpoint('/system/_spaces');
 
 	// Fetch content from endpoint.
 	const response = await fetch(endpoint);
@@ -23,8 +23,8 @@ const fetchSpaces = async (): Promise<void> => {
 
 	// Set value to payload data if it exists.
 	if (payload.data) {
-		spaces.set(payload.data);
+		_spaces.set(payload.data);
 	}
 };
 
-export { getSpaces, fetchSpaces };
+export { spaces, fetchSpaces };
