@@ -5,4 +5,8 @@ const getProjectsEndpoint = (space?: string): string => {
 	return getEndpoint(`/system/projects${spaceQuery}`);
 };
 
-export { getProjectsEndpoint };
+const getSpecificProjectEndpoint = (id: string): string => {
+	return getEndpoint(`/system/projects/=${id}`);
+};
+
+export { getProjectsEndpoint, getSpecificProjectEndpoint };

@@ -94,10 +94,7 @@
 			border-bottom: var(--border-frame);
 			align-items: center;
 			padding: var(--spacing-shortcut) 0;
-
-			> :global(:not(:first-child)) {
-				margin-top: var(--spacing-shortcut);
-			}
+			gap: var(--spacing-shortcut);
 
 			&.mid {
 				flex-grow: 1;

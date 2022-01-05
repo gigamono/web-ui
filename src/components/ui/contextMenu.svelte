@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
 	import type { ContextMenu } from '$application/types';
-import Brand from './brand.svelte';
+	import Brand from './brand.svelte';
 
 	// Props.
 	export let menu: ContextMenu<any, any> = null;
@@ -12,6 +12,12 @@ import Brand from './brand.svelte';
 	$: startComponent = menu.startComponent;
 	$: endComponent = menu.endComponent;
 	$: contextOptions = menu.contextOptions;
+
+	// Handlers.
+	const handleMouseDown = (event: Event) => {
+		event.preventDefault();
+		event.stopPropagation();
+	};
 </script>
 
 <template lang="pug">
@@ -22,11 +28,11 @@ import Brand from './brand.svelte';
 				--position-y: {positionY}px;`,
 		)
 			+if("startComponent")
-				svelte:component(this="{startComponent.component}", "{...startComponent.props}")
+				svelte:component(this="{startComponent.component}", props="{startComponent.props}")
 				.divider
 
 			li.options: +each("contextOptions as option")
-				.option(on:click="{option.handler}")
+				.option(on:click="{option.handler}", on:mousedown="{handleMouseDown}")
 					.icon(
 						style=`
 						--icon-url: url('{option.iconUrl}');
@@ -36,7 +42,7 @@ import Brand from './brand.svelte';
 
 			+if("endComponent")
 				.divider
-				svelte:component(this="{endComponent.component}", "{...endComponent.props}")
+				svelte:component(this="{endComponent.component}", props="{endComponent.props}")
 </template>
 
 <style lang="scss">
@@ -70,6 +76,7 @@ import Brand from './brand.svelte';
 				align-items: center;
 				height: var(--height-context-option);
 				padding: 0 var(--padding-context-option-lr);
+				cursor: pointer;
 
 				> .icon {
 					@include icon-mask(var(--icon-url));
@@ -86,7 +93,6 @@ import Brand from './brand.svelte';
 				}
 
 				&:hover {
-					cursor: pointer;
 					background-color: var(--color-bg-6);
 				}
 			}

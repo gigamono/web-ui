@@ -5,7 +5,7 @@
 </script>
 
 <template lang="pug">
-	button
+	button(class="{$$props.class}")
 		img(src="{iconUrl}", alt="{name}")
 </template>
 
@@ -13,18 +13,20 @@
 	@import '../../assets/styles/variables.scss';
 
 	button {
-		--size-shortcut: 2rem;
-
-		width: var(--size-shortcut);
-		height: var(--size-shortcut);
+		width: var(--size-icon-button);
+		height: var(--size-icon-button);
 		border-radius: var(--radius-primary);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 
 		> img {
-			width: calc(var(--size-shortcut) * 0.5);
-			height: calc(var(--size-shortcut) * 0.5);
+			width: var(--size-icon-2);
+			height: var(--size-icon-2);
+		}
+
+		&:hover {
+			background-color: var(--color-bg-5);
 		}
 	}
 </style>

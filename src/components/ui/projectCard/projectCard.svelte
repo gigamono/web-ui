@@ -1,28 +1,23 @@
 <script lang="ts">
-	import type { ContextMenu } from '$application/types';
+	import type { ContextMenu, ContextMenuColorPickerProps, Project } from '$application/types';
 	import { setOpenContextMenuEvent } from '$stores/events';
 	import ContextMenuColorPicker from '$ui/contextMenuColorPicker.svelte';
-	import { contextOptions } from './options';
+	import { projectContextMenuOptions } from './projectContextMenuOptions';
 
 	// Props.
-	export let projectName = '';
-	export let imageUrl = '';
+	export let project: Project = null;
+
+	// State.
+	let imageUrl = ''; // TODO(appcypher): Implement using project generated from project eventually.
 
 	// Handlers.
 	const handleContextMenuClick = (event: PointerEvent) => {
-		// TODO(appcypher): How to export thisa type information from the component itself.
-		type ColorPickerProps = {
-			colors: string[];
-			selectedIndex: number;
-			hasNullColor: boolean;
-		};
-
-		const menu: ContextMenu<void, ColorPickerProps> = {
+		const menu: ContextMenu<void, ContextMenuColorPickerProps> = {
 			position: {
 				x: event.clientX,
 				y: event.clientY
 			},
-			contextOptions,
+			contextOptions: projectContextMenuOptions(project),
 			endComponent: {
 				component: ContextMenuColorPicker,
 				props: {
@@ -56,7 +51,7 @@
 				.placeholder-image
 				.text No Preview
 
-		.title {projectName}
+		.title {project.name}
 </template>
 
 <style lang="scss">
@@ -64,17 +59,15 @@
 	@import '../../../assets/styles/styles.scss';
 
 	.project-card {
-		--size-card-width: 16rem;
-		--size-card-height: 10rem;
-
-		width: var(--size-card-width);
-		height: 12rem;
+		width: var(--width-project-card);
+		height: var(--height-project-card);
 		border-radius: var(--radius-primary);
 		border: var(--border-frame);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding: 0.4375rem;
+		cursor: pointer;
 
 		> img {
 			width: 100%;
@@ -110,7 +103,6 @@
 		}
 
 		&:hover {
-			cursor: pointer;
 			border: var(--border-frame-2);
 			box-shadow: var(--shadow-grey);
 		}

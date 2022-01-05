@@ -12,16 +12,16 @@ const setOpenAppEvent = (event: Event, name: string): void => {
 };
 
 // Close Project Modal Event
-const _closeProjectModalEvent: Writable<Record<string, string>> = writable(null);
+const _closeProjectModalEvent: Writable<Record<string, void>> = writable(null);
 const closeProjectModalEvent = derived(_closeProjectModalEvent, ($val) => $val);
 const setCloseProjectModalEvent = (): void => {
 	_closeProjectModalEvent.set({});
 };
 
 // Open Context MenuEvent
-const _openContextMenuEvent: Writable<ContextMenu> = writable(null);
+const _openContextMenuEvent: Writable<ContextMenu<any, any>> = writable(null);
 const openContextMenuEvent = derived(_openContextMenuEvent, ($val) => $val);
-const setOpenContextMenuEvent = (menu: ContextMenu): void => {
+const setOpenContextMenuEvent = <A, B>(menu: ContextMenu<A, B>): void => {
 	_openContextMenuEvent.set(menu);
 };
 

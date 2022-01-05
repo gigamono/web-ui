@@ -1,23 +1,32 @@
 <script lang="ts">
-	export let colors: string[] = [];
-	export let selectedIndex: number = -1;
-	export let hasNullColor: boolean = false;
+	type Props = {
+		colors: string[],
+		selectedIndex: number,
+		hasNullColor: boolean,
+	};
 
-	if (hasNullColor) {
-		colors = [null].concat(colors);
+	export let props = {
+		colors: [],
+		selectedIndex: -1,
+		hasNullColor: false
+	};
+
+	// Add null color to list if enabled.
+	if (props.hasNullColor) {
+		props.colors = [null].concat(props.colors);
 	}
 
-	const isNullColorIndex = (index: number) => index === 0 && hasNullColor;
+	const isNullColorIndex = (index: number) => index === 0 && props.hasNullColor;
 </script>
 
 <template lang="pug">
-	li.colors: +each("colors as color, index")
+	li.colors: +each("props.colors as color, index")
 		.color-circle
 			.color(
 				class="{isNullColorIndex(index) ? 'placeholder-image' : 'no-placeholder'}",
 				style="--color: var({color})"
 			)
-			.halo(class:selected="{selectedIndex === index}")
+			.halo(class:selected="{props.selectedIndex === index}")
 </template>
 
 <style lang="scss">

@@ -1,8 +1,10 @@
 import type { SvelteComponent } from 'svelte';
 
-type ProjectModalCard = {
-	projectName: string;
-	imageUrl: string;
+type Project = {
+	id: string;
+	name: string;
+	space: string;
+	color: string;
 };
 
 type Position = {
@@ -17,6 +19,12 @@ type ContextOption = {
 	handler: (event: Event) => void;
 };
 
+type ContextMenuColorPickerProps = {
+	colors: string[];
+	selectedIndex: number;
+	hasNullColor: boolean;
+};
+
 type ContextMenuComponent<P> = {
 	component: typeof SvelteComponent;
 	props: P;
@@ -29,4 +37,18 @@ type ContextMenu<A, B> = {
 	endComponent?: ContextMenuComponent<B>;
 };
 
-export type { ProjectModalCard, Position, ContextOption, ContextMenu };
+type ToggleOption = {
+	outlineIconUrl: string;
+	filledIconUrl: string;
+	name: string;
+	handler: (event: Event) => void;
+};
+
+export type {
+	Project,
+	Position,
+	ContextOption,
+	ToggleOption,
+	ContextMenu,
+	ContextMenuColorPickerProps
+};

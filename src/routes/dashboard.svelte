@@ -8,7 +8,7 @@
 	import { fetchSessionState, fetchSessionProfile } from '$stores/session';
 	import { fetchProjects, projects } from '$stores/projects';
 	import { onDestroy } from 'svelte';
-	import ProjectModal from '$layout/projectModal.svelte';
+	import ProjectModal from '$layout/projectModal/projectModal.svelte';
 	import {
 		openAppEvent,
 		closeProjectModalEvent,
