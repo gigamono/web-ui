@@ -1,19 +1,20 @@
 <script lang="ts">
 	import ProjectModalCardSection from '$layout/projectModalCardSection.svelte';
 	import type { ProjectModalCard } from '$application/types';
-	import { fetchProjects, projects } from '$stores/projects';
+	import { projects } from '$stores/projects';
 	import { setCloseProjectModalEvent } from '$stores/events';
+	import { contextOptions } from '$ui/projectCard/options';
 
 	type SpaceSections = {
 		[spaceName: string]: ProjectModalCard[];
 	};
 
-	// Init.
-	(async () => {
-		// Fetch the projects.
-		await fetchProjects();
+	// State.
+	let spaceSections: SpaceSections = {};
+	const contextOptionImages = contextOptions.map(({ iconUrl }) => iconUrl);
 
-		// Group the projects by space.
+	// Subscriptions.
+	projects.subscribe(($projects) => {
 		for (const project of $projects) {
 			if (!spaceSections[project.space]) {
 				spaceSections[project.space] = [
@@ -31,10 +32,7 @@
 				spaceSections = spaceSections;
 			}
 		}
-	})();
-
-	// State.
-	let spaceSections: SpaceSections = {};
+	});
 
 	// Handlers.
 	const handleBackgroundClick = (): void => {
@@ -43,19 +41,23 @@
 </script>
 
 <template lang="pug">
-  #project-modal(class="{$$props.class}")
-    .background(on:click|self="{handleBackgroundClick}")
+	#project-modal(class="{$$props.class}")
+		.background(on:click|self="{handleBackgroundClick}")
 
-    .modal
-      .top-bar
+		.modal
+			.top-bar
 
-      li.space-sections: +each("Object.entries(spaceSections) as [spaceName, projects]")
-        ProjectModalCardSection(
+			li.space-sections: +each("Object.entries(spaceSections) as [spaceName, projects]")
+				ProjectModalCardSection(
 					spaceName="{spaceName}",
 					projects="{projects}"
 				)
 
-      .add-space
+			.add-space
+
+		//- Preload context menu images
+		+each("contextOptionImages as image")
+			link(rel="preload", as="image", href="{image}", crossorigin='anonymous')
 
 </template>
 

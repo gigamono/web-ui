@@ -1,50 +1,94 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
 	import type { ContextMenu } from '$application/types';
+import Brand from './brand.svelte';
 
 	// Props.
-	export let menu: ContextMenu = null;
+	export let menu: ContextMenu<any, any> = null;
 
 	// State.
-	let positionX = menu.position.x;
-	let positionY = menu.position.y;
-	let startComponent = menu.startComponent;
-	let endComponent = menu.endComponent;
+	$: positionX = menu.position.x;
+	$: positionY = menu.position.y;
+	$: startComponent = menu.startComponent;
+	$: endComponent = menu.endComponent;
+	$: contextOptions = menu.contextOptions;
 </script>
 
 <template lang="pug">
-    .context-menu(
-      class="{$$props.class}",
-      style=`
-        --position-x: {positionX}px;
-        --position-y: {positionY}px;`,
-    )
-      +if("menu.startComponent")
-        svelte:component(this="{startComponent}")
+		.context-menu(
+			class="{$$props.class}",
+			style=`
+				--position-x: {positionX}px;
+				--position-y: {positionY}px;`,
+		)
+			+if("startComponent")
+				svelte:component(this="{startComponent.component}", "{...startComponent.props}")
+				.divider
 
-      li.options: +each("menu.contextOptions as option")
-        .option(on:click="{option.handler}")
-          img(src="{option.iconUrl}", alt="{option.name}")
-          span.name {option.name}
+			li.options: +each("contextOptions as option")
+				.option(on:click="{option.handler}")
+					.icon(
+						style=`
+						--icon-url: url('{option.iconUrl}');
+						--color: {option.color};`
+					)
+					.name(style="--color: {option.color}") {option.name}
 
-      +if("menu.endComponent")
-        svelte:component(this="{endComponent}")
+			+if("endComponent")
+				.divider
+				svelte:component(this="{endComponent.component}", "{...endComponent.props}")
 </template>
 
 <style lang="scss">
+	@import '../../assets/styles/variables.scss';
+
+	.divider {
+		height: 0.0625rem;
+		margin: 0.25rem 0;
+		background-color: var(--color-bg-4);
+	}
+
 	.context-menu {
 		position: absolute;
-		height: 10rem; // TODO: remove
-		width: 5rem; // TODO: remove
 		left: var(--position-x);
 		top: var(--position-y);
+		background-color: var(--color-bg-8);
+		border-radius: var(--radius-primary);
+		border: var(--border-frame-2);
+		box-shadow: var(--shadow-grey);
+		width: 10.875rem;
+		display: flex;
+		flex-direction: column;
+		padding: var(--padding-context-menu-tb) 0;
 
 		li.options {
 			display: flex;
 			flex-direction: column;
 
 			> .option {
-				height: 5rem; // TODO: Change
+				display: flex;
+				align-items: center;
+				height: var(--height-context-option);
+				padding: 0 var(--padding-context-option-lr);
+
+				> .icon {
+					@include icon-mask(var(--icon-url));
+
+					height: var(--size-context-option-icon);
+					width: var(--size-context-option-icon);
+					margin-right: var(--margin-context-option-icon-lr);
+					background-color: var(--color);
+				}
+
+				> .name {
+					font-size: 0.75rem;
+					color: var(--color);
+				}
+
+				&:hover {
+					cursor: pointer;
+					background-color: var(--color-bg-6);
+				}
 			}
 		}
 	}

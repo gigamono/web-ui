@@ -4,6 +4,7 @@
 	import { sessionState } from '$stores/session';
 	import { getAppIconEndpoint } from '$application/endpoints/apps';
 	import { onDestroy } from 'svelte';
+	import { session } from '$app/stores';
 
 	type Shortcut = {
 		filledIconUrl: string;
@@ -17,7 +18,7 @@
 	let systemAppShortcuts: Shortcut[] = [];
 
 	// Subscriptions.
-	$: {
+	sessionState.subscribe(() => {
 		if ($sessionState) {
 			userAppShortcuts = $sessionState.activeUserApps.map((app) => ({
 				name: app.name,
@@ -31,7 +32,7 @@
 				outlineIconUrl: getAppIconEndpoint(app.name)
 			}));
 		}
-	}
+	});
 </script>
 
 <template lang="pug">

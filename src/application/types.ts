@@ -14,14 +14,19 @@ type ContextOption = {
 	iconUrl: string;
 	name: string;
 	color: string;
-	handler: () => void;
+	handler: (event: Event) => void;
 };
 
-type ContextMenu = {
+type ContextMenuComponent<P> = {
+	component: typeof SvelteComponent;
+	props: P;
+};
+
+type ContextMenu<A, B> = {
 	position: Position;
 	contextOptions: ContextOption[];
-	startComponent?: SvelteComponent;
-	endComponent?: SvelteComponent;
+	startComponent?: ContextMenuComponent<A>;
+	endComponent?: ContextMenuComponent<B>;
 };
 
 export type { ProjectModalCard, Position, ContextOption, ContextMenu };

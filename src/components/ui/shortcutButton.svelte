@@ -29,16 +29,14 @@
 <template lang="pug">
 	button.shortcut(
 		class:active="{active}",
-		on:click|preventDefault="{handleClick}"
+		on:click="{handleClick}"
 	)
-		div.icon(style=`
-			--icon-outline-url: url("{outlineIconUrl}");
-			--icon-filled-url: url("{filledIconUrl}");
-			`
-		)
+		.icon_filled(style="--icon-filled-url: url('{filledIconUrl}');")
+		.icon_outline(style="--icon-outline-url: url('{outlineIconUrl}');")
 </template>
 
 <style lang="scss">
+	@import '../../assets/styles/styles.scss';
 	@import '../../assets/styles/variables.scss';
 
 	button.shortcut {
@@ -51,8 +49,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		overflow: hidden;
 
-		> .icon {
+		> .icon_filled {
+			@include icon-mask(var(--icon-filled-url));
+			@include hide;
+
+			width: var(--size-shortcut-icon);
+			height: var(--size-shortcut-icon);
+			background-color: var(--color-bg-8);
+		}
+
+		> .icon_outline {
 			@include icon-mask(var(--icon-outline-url));
 
 			width: var(--size-shortcut-icon);
@@ -65,10 +73,12 @@
 			cursor: pointer;
 			background-color: var(--color-primary-3);
 
-			> .icon {
-				@include icon-mask-hover(var(--icon-filled-url));
+			> .icon_outline {
+				@include hide;
+			}
 
-				background-color: var(--color-bg-8);
+			> .icon_filled {
+				@include show;
 			}
 		}
 	}

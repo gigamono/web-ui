@@ -90,6 +90,16 @@ $woff2-fonts: (
 	--color-primary-light-8: #fcfcff;
 	--color-primary-light: var(--color-primary-light-4);
 
+	--color-misc-green: #71efa3;
+	--color-misc-orange: #ffb900;
+	--color-misc-tomato: #eb5757;
+	--color-misc-orchid: #c019ba;
+	--color-misc-turquoise: #56ccf2;
+	--color-misc-blue: #2f80ed;
+	--color-misc-coral: #f2822b;
+	--color-misc-yellow: #ffff00;
+	--color-misc-pink: #ff95a7;
+
 	--color-brand-primary: #5c88ff;
 	--color-brand-secondary: #e887ff;
 }
@@ -98,6 +108,21 @@ $woff2-fonts: (
 
 :root {
 	--size-frame: 3.125rem;
+	--size-context-option-icon: 0.875rem;
+	--height-context-option: 2rem;
+}
+
+// === Paddings ===
+
+:root {
+	--padding-context-option-lr: 0.625rem;
+	--padding-context-menu-tb: 0.25rem;
+}
+
+// === Margins ===
+
+:root {
+	--margin-context-option-icon-lr: 0.625rem;
 }
 
 // === Border ===
@@ -119,6 +144,8 @@ $woff2-fonts: (
 // === Shadows ===
 
 :root {
-	--shadow-grey: 0 0 0.375rem 0 rgba(0, 0, 0, 0.1); // light
-	--shadow-grey-2: 0 0 0.25rem 0 rgba(0, 0, 0, 0.2); // dark
+	--shadow-grey: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1); // light
+	--shadow-grey-2: 0 0 0.5rem 0 rgba(0, 0, 0, 0.25); // dark
+
+	--shadow-toggle: 0 0 0.25rem 0 rgba(0, 0, 0, 0.25);
 }

@@ -6,6 +6,7 @@
 	import TabBar from '$layout/tabBar.svelte';
 	import { sessionState } from '$stores/session';
 	import { fetchSessionState, fetchSessionProfile } from '$stores/session';
+	import { fetchProjects, projects } from '$stores/projects';
 	import { onDestroy } from 'svelte';
 	import ProjectModal from '$layout/projectModal.svelte';
 	import {
@@ -19,6 +20,7 @@
 	(async () => {
 		await fetchSessionState();
 		await fetchSessionProfile();
+		await fetchProjects();
 	})();
 
 	// State.
@@ -50,13 +52,30 @@
 			showContextMenu = false;
 		}
 	});
+
+	// Handlers.
+	const handleMouseDown = () => {
+		showContextMenu = false;
+	};
+
+	const handleWindowKeyDown = (event) => {
+		if (event.key === 'Escape') {
+			showContextMenu = false;
+		}
+	};
+
+	const handleWindowBlur = () => {
+		showContextMenu = false;
+	};
 </script>
 
 <template lang="pug">
+	svelte:window(on:keydown="{handleWindowKeyDown}", on:blur="{handleWindowBlur}")
+
 	svelte:head
 		title Gigamono | Dashboard
 
-	#dashboard
+	#dashboard(on:mousedown="{handleMouseDown}")
 		SideStrip.side-strip
 		TabBar.tab-bar
 

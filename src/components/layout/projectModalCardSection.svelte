@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ProjectCard from '../ui/projectCard.svelte';
+	import ProjectCard from '../ui/projectCard/projectCard.svelte';
 	import IconButton from '../ui/iconButton.svelte';
 	import CollapseIcon from '$assets/icons/collapse.svg';
 	import type { ProjectModalCard } from '$application/types';
