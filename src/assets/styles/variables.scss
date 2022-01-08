@@ -30,8 +30,8 @@ $woff2-fonts: (
 @each $key, $fontName in $woff2-fonts {
 	@font-face {
 		font-family: $fontName;
-		src: url('src/assets/fonts/#{$fontName}.woff2') format('woff2 supports variations'),
-			url('src/assets/fonts/#{$fontName}.woff2') format('woff2-variations');
+		src: url('$assets/fonts/#{$fontName}.woff2') format('woff2 supports variations'),
+			url('$assets/fonts/#{$fontName}.woff2') format('woff2-variations');
 
 		font-weight: 1 1000;
 	}

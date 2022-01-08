@@ -70,15 +70,21 @@
 	const handleWindowBlur = () => {
 		showContextMenu = false;
 	};
+
+	// On page load, do something.
 </script>
 
 <template lang="pug">
-	svelte:window(on:keydown="{handleWindowKeyDown}", on:blur="{handleWindowBlur}")
+	svelte:window(
+		on:keydown="{handleWindowKeyDown}",
+		on:blur="{handleWindowBlur}",
+		on:mousedown="{handleMouseDown}"
+	)
 
 	svelte:head
 		title Gigamono | Dashboard
 
-	#dashboard(on:mousedown="{handleMouseDown}")
+	#dashboard()
 		SideStrip.side-strip
 		TabBar.tab-bar
 
