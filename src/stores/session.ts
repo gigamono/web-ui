@@ -3,55 +3,90 @@ import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 import { getEndpoint } from '$application/endpoints/utils';
 
-type App = {
-	name: string;
+type SessionOpenTab = {
+	id: string;
+	app: string;
+	tabId: string;
+	focus: boolean;
 };
 
-type Session = {
-	activeUserApps: App[];
-	activeSystemApps: App[];
-	selectedSpace: string;
-	selectedProject: string;
-	selectedApp: string;
-	selectedTab: string;
+type SessionFocus = {
+	app: string;
 };
 
-type SessionOptional = {
-	activeUserApps?: App[];
-	activeSystemApps?: App[];
-	selectedSpace?: string;
-	selectedProject?: string;
-	selectedApp?: string;
-	selectedTab?: string;
+type SessionOpenTabPartial = Partial<SessionOpenTab>;
+
+type SessionFocusPartial = Partial<SessionFocus>;
+
+const _sessionOpenTabs: Writable<SessionOpenTab[]> = writable([]);
+const _sessionFocus: Writable<SessionFocus> = writable(null);
+
+const sessionOpenTabs = derived(_sessionOpenTabs, ($val) => $val);
+const sessionFocus = derived(_sessionFocus, ($val) => $val);
+
+const fetchSession = <T>(rx: Writable<T>, endpoint: string) => {
+	return async (): Promise<void> => {
+		// Fetch content from endpoint.
+		const response = await fetch(endpoint);
+		const payload: Payload<T> = await response.json();
+
+		// Set value to payload data if it exists.
+		if (payload.data) {
+			rx.set(payload.data);
+		}
+	};
 };
 
-const _session: Writable<Session> = writable(null);
-const session = derived(_session, ($val) => $val);
+const modifyNonCritical = <T>(rx: Writable<T | Array<T & { id: string }>>, endpoint: string) => {
+	return async (newValue: T & { id: string }): Promise<void> => {
+		// Update session in store irrespective of whether subsequent request is succesful or not.
+		rx.update((session) => {
+			if (session instanceof Array) {
+				// If value exists in array, replace it.
+				const index = session.findIndex((value) => value.id === newValue.id);
+				if (index > -1) {
+					session.splice(index, 1);
+					session.push(newValue);
+				}
 
-const fetchSession = async (): Promise<void> => {
-	// Fetch content from endpoint.
-	const response = await fetch(getEndpoint('/system/session'));
-	const payload: Payload<Session> = await response.json();
+				return session;
+			}
 
-	// Set value to payload data if it exists.
-	if (payload.data) {
-		_session.set(payload.data);
-	}
+			return { ...session, ...newValue };
+		});
+
+		await fetch(endpoint, {
+			method: 'PUT',
+			body: JSON.stringify(newValue)
+		});
+	};
 };
 
-const modifySession = async (newSession: SessionOptional): Promise<void> => {
-	const response = await fetch(getEndpoint('/system/session'), {
-		method: 'PUT',
-		body: JSON.stringify(newSession)
-	});
+const fetchSessionFocus = fetchSession<SessionFocus>(
+	_sessionFocus,
+	getEndpoint('/system/session/focus')
+);
 
-	if (response.ok) {
-		_session.update((session) => ({ ...session, ...newSession }));
-	}
-};
+const fetchSessionOpenTabs = fetchSession<SessionOpenTab[]>(
+	_sessionOpenTabs,
+	getEndpoint('/system/session/open_tabs')
+);
+
+const modifySessionFocusNonCritical = modifyNonCritical<SessionFocusPartial>(
+	_sessionFocus,
+	getEndpoint('/system/session/focus')
+);
+
+const modifySessionTabsNonCritical = modifyNonCritical<SessionOpenTabPartial>(
+	_sessionOpenTabs,
+	getEndpoint('/system/session/focus')
+);
 
 export {
-	session,
-	fetchSession,
-	modifySession
+	sessionFocus,
+	sessionOpenTabs,
+	fetchSessionFocus,
+	fetchSessionOpenTabs,
+	modifySessionFocusNonCritical,
+	modifySessionTabsNonCritical
 };

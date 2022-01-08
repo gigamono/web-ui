@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Brand from '$ui/brand.svelte';
 	import ShortcutButton from '$ui/shortcutButton.svelte';
-	import { session } from '$stores/session';
 	import { getAppIconEndpoint } from '$application/endpoints/apps';
 	import { onDestroy } from 'svelte';
+	import { apps } from '$stores/apps';
 
 	type Shortcut = {
 		filledIconUrl: string;
@@ -17,19 +17,26 @@
 	let systemAppShortcuts: Shortcut[] = [];
 
 	// Subscriptions.
-	session.subscribe(() => {
-		if ($session) {
-			userAppShortcuts = $session.activeUserApps.map((app) => ({
-				name: app.name,
-				filledIconUrl: getAppIconEndpoint(app.name, false),
-				outlineIconUrl: getAppIconEndpoint(app.name)
-			}));
+	apps.subscribe(() => {
+		if ($apps) {
+			for (const app of $apps) {
+				if (app.isSystemApp) {
+					systemAppShortcuts.push({
+						filledIconUrl: getAppIconEndpoint(app.name, false),
+						outlineIconUrl: getAppIconEndpoint(app.name),
+						name: app.name
+					});
+				} else {
+					userAppShortcuts.push({
+						filledIconUrl: getAppIconEndpoint(app.name, false),
+						outlineIconUrl: getAppIconEndpoint(app.name),
+						name: app.name
+					});
+				}
+			}
 
-			systemAppShortcuts = $session.activeSystemApps.map((app) => ({
-				name: app.name,
-				filledIconUrl: getAppIconEndpoint(app.name, false),
-				outlineIconUrl: getAppIconEndpoint(app.name)
-			}));
+			systemAppShortcuts = systemAppShortcuts;
+			userAppShortcuts = userAppShortcuts;
 		}
 	});
 </script>

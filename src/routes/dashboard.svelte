@@ -4,10 +4,10 @@
 	import ContextMenu from '$ui/contextMenu.svelte';
 	import SideStrip from '$layout/sideStrip.svelte';
 	import TabBar from '$layout/tabBar.svelte';
-	import { session } from '$stores/session';
-	import { fetchSession } from '$stores/session';
 	import { fetchProjects, projects } from '$stores/projects';
+	import { fetchSessionOpenTabs, fetchSessionFocus } from '$stores/session';
 	import { fetchProfile } from '$stores/profile';
+	import { fetchApps } from '$stores/apps';
 	import { onDestroy } from 'svelte';
 	import ProjectModal from '$layout/projectModal/projectModal.svelte';
 	import {
@@ -19,13 +19,15 @@
 
 	// Init.
 	(async () => {
-		await fetchSession();
+		await fetchApps(true);
 		await fetchProfile();
+		await fetchSessionFocus();
+		await fetchSessionOpenTabs();
 		await fetchProjects();
 	})();
 
 	// State.
-	let appSelected = $session?.selectedApp;
+	let sessionFocusApp = null; // TODO(appcypher)
 	let showProjectModal = false;
 	let showContextMenu = false;
 
@@ -80,7 +82,7 @@
 		SideStrip.side-strip
 		TabBar.tab-bar
 
-		+if("appSelected")
+		+if("sessionFocusApp")
 			MenuBar.menu-bar
 
 		ContentArea.content-area

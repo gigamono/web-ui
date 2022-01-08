@@ -1,7 +1,7 @@
 import { getEndpoint } from './utils';
 
-const getAppsEndpoint = (is_installed = true): string => {
-	return getEndpoint(`/system/apps?installed=${is_installed}`);
+const getAppsEndpoint = (enabled = true): string => {
+	return getEndpoint(`/system/apps?enabled=${enabled}`);
 };
 
 const getAppIconEndpoint = (name: string, is_outline = true): string => {

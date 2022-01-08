@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { session } from '$stores/session';
 	import NoAppSelectedIllustration from '$assets/illustrations/no_app_selected.svg';
 
 	// State.
-	let appSelected = $session?.selectedApp;
+	let sessionFocusApp = null; // TODO(appcypher)
 </script>
 
 <template lang="pug">
 	#content-area(class="{$$props.class}")
-		+if("appSelected")
+		+if("sessionFocusApp")
 			iframe#app-frame(title="" src="")
 
-		+if("!appSelected")
+		+if("!sessionFocusApp")
 			.no-app-selected-container
 				.title You have not selected any app
 				.body Please select an app from the sidebar to get started
@@ -21,7 +20,7 @@
 
 <style lang="scss">
 	#content-area {
-    position: relative;
+		position: relative;
 
 		> iframe {
 			height: 100%;

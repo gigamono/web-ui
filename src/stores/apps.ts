@@ -5,16 +5,17 @@ import type { Payload } from './types';
 
 type App = {
 	name: string;
-	installed: string;
+	enabled: boolean;
+	isSystemApp: boolean;
 };
 
 const _apps: Writable<App[]> = writable([]);
 
 const apps = derived(_apps, $val => $val);
 
-const fetchApps = async (installed: boolean): Promise<void> => {
+const fetchApps = async (enabled = false): Promise<void> => {
 	// Fetch content from endpoint.
-	const response = await fetch(getAppsEndpoint(installed));
+	const response = await fetch(getAppsEndpoint(enabled));
 	const payload: Payload<App[]> = await response.json();
 
 	// Set value to payload data if it exists.
