@@ -5,7 +5,12 @@
 	import SideStrip from '$layout/sideStrip.svelte';
 	import TabBar from '$layout/tabBar.svelte';
 	import { fetchProjects, projects } from '$stores/projects';
-	import { fetchSessionOpenTabs, fetchSessionFocus } from '$stores/session';
+	import {
+		fetchSessionOpenTabs,
+		fetchSessionFocus,
+		sessionFocus,
+		sessionOpenTabs
+	} from '$stores/session';
 	import { fetchProfile } from '$stores/profile';
 	import { fetchApps } from '$stores/apps';
 	import { onDestroy } from 'svelte';
@@ -24,10 +29,19 @@
 		await fetchSessionFocus();
 		await fetchSessionOpenTabs();
 		await fetchProjects();
+
+		// TODO(appcypher): Make function ./dashboard/setup.ts. Maybe this entire init section.
+		// If there is an existing focus tab in the session, open it.
+		if ($sessionFocus?.app) {
+			const tab = $sessionOpenTabs.find((tab) => tab.app === $sessionFocus.app && tab.focus);
+			if (tab) {
+				
+			}
+		}
 	})();
 
 	// State.
-	let sessionFocusApp = null; // TODO(appcypher)
+	let sessionFocusApp = null;
 	let showProjectModal = false;
 	let showContextMenu = false;
 
@@ -70,8 +84,6 @@
 	const handleWindowBlur = () => {
 		showContextMenu = false;
 	};
-
-	// On page load, do something.
 </script>
 
 <template lang="pug">
@@ -84,7 +96,7 @@
 	svelte:head
 		title Gigamono | Dashboard
 
-	#dashboard()
+	#dashboard
 		SideStrip.side-strip
 		TabBar.tab-bar
 

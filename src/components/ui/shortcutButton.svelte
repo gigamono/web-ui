@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { setOpenAppEvent } from '$stores/events';
+	import { emitOpenAppEvent } from '$stores/events';
 	import { closeProjectModalEvent } from '$stores/events';
 
 	// Props.
@@ -13,7 +13,7 @@
 
 	// Handlers.
 	const handleClick = (event: Event) => {
-		setOpenAppEvent(event, name);
+		emitOpenAppEvent({ event, name });
 		active = true;
 	};
 

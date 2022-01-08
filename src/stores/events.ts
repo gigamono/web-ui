@@ -4,41 +4,41 @@ import type { ContextMenu } from '$application/types';
 
 type OpenAppEvent = { event: Event; name: string };
 
-// Open App Event
-const _openAppEvent: Writable<OpenAppEvent> = writable(null);
-const openAppEvent = derived(_openAppEvent, ($val) => $val);
-const setOpenAppEvent = (event: Event, name: string): void => {
-	_openAppEvent.set({ event, name });
+const createEvent = <T>() => {
+	const _event: Writable<T> = writable(null);
+	const event = derived(_event, ($val) => $val);
+	const emitter = (args: T): void => {
+		_event.set(args);
+	};
+
+	return {
+		event,
+		emitter
+	};
 };
+
+// Open App Event
+const { event: openAppEvent, emitter: emitOpenAppEvent } = createEvent<OpenAppEvent>();
 
 // Close Project Modal Event
-const _closeProjectModalEvent: Writable<Record<string, void>> = writable(null);
-const closeProjectModalEvent = derived(_closeProjectModalEvent, ($val) => $val);
-const setCloseProjectModalEvent = (): void => {
-	_closeProjectModalEvent.set({});
-};
+const { event: closeProjectModalEvent, emitter: emitCloseProjectModalEvent } =
+	createEvent<Record<string, never>>();
 
 // Open Context MenuEvent
-const _openContextMenuEvent: Writable<ContextMenu<any, any>> = writable(null);
-const openContextMenuEvent = derived(_openContextMenuEvent, ($val) => $val);
-const setOpenContextMenuEvent = <A, B>(menu: ContextMenu<A, B>): void => {
-	_openContextMenuEvent.set(menu);
-};
+const { event: openContextMenuEvent, emitter: emitOpenContextMenuEvent } =
+	createEvent<ContextMenu<unknown, unknown>>();
 
 // Close Context MenuEvent
-const _closeContextMenuEvent: Writable<Record<string, string>> = writable(null);
-const closeContextMenuEvent = derived(_closeContextMenuEvent, ($val) => $val);
-const setCloseContextMenuEvent = (): void => {
-	_closeContextMenuEvent.set({});
-};
+const { event: closeContextMenuEvent, emitter: emitCloseContextMenuEvent } =
+	createEvent<Record<string, never>>();
 
 export {
 	openAppEvent,
-	setOpenAppEvent,
+	emitOpenAppEvent,
 	closeProjectModalEvent,
-	setCloseProjectModalEvent,
+	emitCloseProjectModalEvent,
 	openContextMenuEvent,
-	setOpenContextMenuEvent,
+	emitOpenContextMenuEvent,
 	closeContextMenuEvent,
-	setCloseContextMenuEvent
+	emitCloseContextMenuEvent
 };

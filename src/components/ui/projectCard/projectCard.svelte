@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ContextMenu, ContextMenuColorPickerProps, Project } from '$application/types';
-	import { setOpenContextMenuEvent } from '$stores/events';
+	import { emitOpenContextMenuEvent } from '$stores/events';
 	import ContextMenuColorPicker from '$ui/contextMenuColorPicker.svelte';
 	import { projectContextMenuOptions } from './projectContextMenuOptions';
 
@@ -37,7 +37,7 @@
 				}
 			}
 		};
-		setOpenContextMenuEvent(menu);
+		emitOpenContextMenuEvent(menu);
 	};
 </script>
 

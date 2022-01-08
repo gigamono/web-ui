@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ProjectModalCardSection from '$layout/projectModalCardSection.svelte';
 	import { projects } from '$stores/projects';
-	import { setCloseProjectModalEvent } from '$stores/events';
+	import { emitCloseProjectModalEvent } from '$stores/events';
 	import {
 		projectContextMenuOptions,
 		projectContextOptionImages
@@ -43,7 +43,7 @@
 
 	// Handlers.
 	const handleBackgroundClick = (): void => {
-		setCloseProjectModalEvent();
+		emitCloseProjectModalEvent({});
 	};
 </script>
 
