@@ -4,9 +4,10 @@
 	import ContextMenu from '$ui/contextMenu.svelte';
 	import SideStrip from '$layout/sideStrip.svelte';
 	import TabBar from '$layout/tabBar.svelte';
-	import { sessionState } from '$stores/session';
-	import { fetchSessionState, fetchSessionProfile } from '$stores/session';
+	import { session } from '$stores/session';
+	import { fetchSession } from '$stores/session';
 	import { fetchProjects, projects } from '$stores/projects';
+	import { fetchProfile } from '$stores/profile';
 	import { onDestroy } from 'svelte';
 	import ProjectModal from '$layout/projectModal/projectModal.svelte';
 	import {
@@ -18,13 +19,13 @@
 
 	// Init.
 	(async () => {
-		await fetchSessionState();
-		await fetchSessionProfile();
+		await fetchSession();
+		await fetchProfile();
 		await fetchProjects();
 	})();
 
 	// State.
-	let appSelected = $sessionState?.selectedApp;
+	let appSelected = $session?.selectedApp;
 	let showProjectModal = false;
 	let showContextMenu = false;
 

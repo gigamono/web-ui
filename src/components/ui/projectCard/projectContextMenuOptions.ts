@@ -5,6 +5,7 @@ import StarIcon from '$assets/icons/star.svg';
 import TrashIcon from '$assets/icons/trash.svg';
 import { deleteProject } from '$stores/projects';
 import type { ContextOption, Project } from '$application/types';
+import { setCloseContextMenuEvent } from '$stores/events';
 
 export const projectContextOptionImages = {
 	share: ShareIcon,
@@ -57,6 +58,7 @@ export const projectContextMenuOptions = (project: Project): ContextOption[] => 
 			handler: (event: Event): void => {
 				event.stopPropagation();
 				(async () => await deleteProject(project.id))();
+				setCloseContextMenuEvent();
 			}
 		}
 	];

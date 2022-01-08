@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { sessionState } from '$stores/session';
+	import { session } from '$stores/session';
 	import NoAppSelectedIllustration from '$assets/illustrations/no_app_selected.svg';
 
 	// State.
-	let appSelected = $sessionState?.selectedApp;
+	let appSelected = $session?.selectedApp;
 </script>
 
 <template lang="pug">

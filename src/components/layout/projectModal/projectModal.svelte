@@ -119,7 +119,6 @@
 			box-shadow: var(--shadow-grey);
 			z-index: 1;
 			padding: var(--padding-modal);
-			overflow-y: scroll;
 			display: flex;
 			flex-direction: column;
 			gap: 1.5rem;
@@ -162,6 +161,7 @@
 				display: flex;
 				flex-direction: column;
 				gap: 2rem;
+				overflow-y: scroll;
 			}
 
 			> button.create-space {

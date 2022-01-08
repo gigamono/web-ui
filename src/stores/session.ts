@@ -1,13 +1,13 @@
 import { writable, derived } from 'svelte/store';
-import { getEndpoint } from '../application/endpoints/utils';
 import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
+import { getEndpoint } from '$application/endpoints/utils';
 
 type App = {
 	name: string;
 };
 
-type SessionState = {
+type Session = {
 	activeUserApps: App[];
 	activeSystemApps: App[];
 	selectedSpace: string;
@@ -16,34 +16,42 @@ type SessionState = {
 	selectedTab: string;
 };
 
-type SessionProfile = {
-	username: string;
-	email: string;
-	avatar: string;
+type SessionOptional = {
+	activeUserApps?: App[];
+	activeSystemApps?: App[];
+	selectedSpace?: string;
+	selectedProject?: string;
+	selectedApp?: string;
+	selectedTab?: string;
 };
 
-const _sessionState: Writable<SessionState> = writable(null);
-const _sessionProfile: Writable<SessionProfile> = writable(null);
+const _session: Writable<Session> = writable(null);
+const session = derived(_session, ($val) => $val);
 
-const sessionState = derived(_sessionState, ($val) => $val);
-const sessionProfile = derived(_sessionProfile, ($val) => $val);
+const fetchSession = async (): Promise<void> => {
+	// Fetch content from endpoint.
+	const response = await fetch(getEndpoint('/system/session'));
+	const payload: Payload<Session> = await response.json();
 
-const fetchSession = (rx: Writable<SessionState | SessionProfile>, url: string) => {
-	return async (): Promise<void> => {
-		const endpoint = getEndpoint(url);
-
-		// Fetch content from endpoint.
-		const response = await fetch(endpoint);
-		const payload: Payload<SessionState> = await response.json();
-
-		// Set value to payload data if it exists.
-		if (payload.data) {
-			rx.set(payload.data);
-		}
-	};
+	// Set value to payload data if it exists.
+	if (payload.data) {
+		_session.set(payload.data);
+	}
 };
 
-const fetchSessionState = fetchSession(_sessionState, '/system/session');
-const fetchSessionProfile = fetchSession(_sessionProfile, '/system/session?profile=true');
+const modifySession = async (newSession: SessionOptional): Promise<void> => {
+	const response = await fetch(getEndpoint('/system/session'), {
+		method: 'PUT',
+		body: JSON.stringify(newSession)
+	});
 
-export { sessionState, sessionProfile, fetchSessionState, fetchSessionProfile };
+	if (response.ok) {
+		_session.update((session) => ({ ...session, ...newSession }));
+	}
+};
+
+export {
+	session,
+	fetchSession,
+	modifySession
+};
