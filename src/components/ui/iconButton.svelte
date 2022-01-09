@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Props.
-	export let iconUrl = '';
-	export let name = '';
+	export let iconUrl: string;
+	export let name: string;
 </script>
 
 <template lang="pug">

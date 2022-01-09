@@ -10,7 +10,7 @@
 	import SearchIcon from '$assets/icons/search.svg';
 	import IconToggle from '$ui/iconToggle.svelte';
 	import type { Project } from '$application/types';
-import type { Rec } from '@sveltejs/kit/types/helper';
+	import type { Rec } from '@sveltejs/kit/types/helper';
 
 	type SpaceSections = {
 		[spaceName: string]: Project[];
@@ -34,8 +34,8 @@ import type { Rec } from '@sveltejs/kit/types/helper';
 	);
 
 	type Acc = {
-		[key: string]: unknown
-	}
+		[key: string]: unknown;
+	};
 
 	// Subscriptions.
 	projects.subscribe(($projects) => {

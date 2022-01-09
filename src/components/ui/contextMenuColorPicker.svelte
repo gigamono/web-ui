@@ -5,22 +5,26 @@
 		hasNullColor: boolean,
 	};
 
-	export let props = {
+	// Props.
+	export let props: Props = {
 		colors: [],
 		selectedIndex: -1,
 		hasNullColor: false
 	};
 
+	// State.
+	let colors: Array<String | null> = [];
+
 	// Add null color to list if enabled.
 	if (props.hasNullColor) {
-		props.colors = [null].concat(props.colors);
+		colors = [null, ...props.colors];
 	}
 
 	const isNullColorIndex = (index: number) => index === 0 && props.hasNullColor;
 </script>
 
 <template lang="pug">
-	li.colors: +each("props.colors as color, index")
+	li.colors: +each("colors as color, index")
 		.color-circle
 			.color(
 				class="{isNullColorIndex(index) ? 'placeholder-image' : 'no-placeholder'}",

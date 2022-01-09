@@ -10,7 +10,7 @@
 		fetchSessionFocus,
 		sessionFocus,
 		sessionOpenTabs,
-focusTab
+		focusTab
 	} from '$stores/session';
 	import { fetchMyProfile } from '$stores/profile';
 	import { fetchApps } from '$stores/apps';
@@ -23,7 +23,7 @@ focusTab
 		closeContextMenuEvent
 	} from '$stores/events';
 	import { fetchTabs } from '$stores/tabs';
-	import type { SessionFocus, Tab } from '$application/types';
+	import type { Tab } from '$application/types';
 
 	// State.
 	let menuTabOptions = null;

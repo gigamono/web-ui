@@ -2,8 +2,8 @@
 	import type { ToggleOption } from '$application/types';
 
 	// Props.
-	export let toggleOptions: ToggleOption[] = [];
-	export let selectedIndex: number = -1;
+	export let toggleOptions: ToggleOption[];
+	export let selectedIndex: number;
 </script>
 
 <template lang="pug">

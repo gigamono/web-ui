@@ -4,7 +4,7 @@
 	import Brand from './brand.svelte';
 
 	// Props.
-	export let menu: ContextMenu<any, any> = null;
+	export let menu: ContextMenu<unknown, unknown>;
 
 	// State.
 	$: positionX = menu.position.x;

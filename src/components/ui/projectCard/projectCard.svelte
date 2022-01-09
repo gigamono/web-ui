@@ -5,7 +5,7 @@
 	import { projectContextMenuOptions } from './projectContextMenuOptions';
 
 	// Props.
-	export let project: Project = null;
+	export let project: Project;
 
 	// State.
 	let imageUrl = ''; // TODO(appcypher): Implement using project generated from project eventually.
@@ -37,6 +37,7 @@
 				}
 			}
 		};
+
 		emitOpenContextMenuEvent(menu);
 	};
 </script>
@@ -100,6 +101,7 @@
 			margin-top: 0.5rem;
 			width: 100%;
 			font-weight: 400;
+			text-overflow: ellipsis;
 		}
 
 		&:hover {

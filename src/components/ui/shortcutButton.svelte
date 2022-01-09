@@ -4,9 +4,9 @@
 	import { closeProjectModalEvent } from '$stores/events';
 
 	// Props.
-	export let filledIconUrl = '';
-	export let outlineIconUrl = '';
-	export let name = '';
+	export let filledIconUrl: string;
+	export let outlineIconUrl: string;
+	export let name: string;
 
 	// State.
 	let active = false;

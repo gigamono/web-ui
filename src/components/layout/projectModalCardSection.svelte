@@ -7,8 +7,8 @@
 	import type { Project } from '$application/types';
 
 	// Props.
-	export let spaceName = '';
-	export let projects: Project[] = [];
+	export let spaceName: string;
+	export let projects: Array<Project | null>;
 
 	// State.
 	let isCollapsed = false;
@@ -77,6 +77,7 @@
 				text-transform: uppercase;
 				font-weight: 560;
 				font-variation-settings: 'wght' 560;
+				text-overflow: ellipsis;
 			}
 
 			> :global(.ellipsis) {

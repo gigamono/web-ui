@@ -2,9 +2,28 @@
 	import BellIcon from '$assets/icons/bell.svg';
 	import { myProfile } from '$stores/profile';
 	import { getProfileStaticEndpoint } from '$application/endpoints/profile';
+	import { default as TabComponent } from '$ui/tab.svelte';
+	import type { Tab } from '$application/types';
 
 	// State.
-	let avatarUrl: string | null = null;
+	let avatarUrl: string;
+	// TODO(appcypher): Get data from store instead.
+	let tabs: Tab[] = [
+		{
+			id: 'cb1311b8-5644-4a14-99f4-a95cf7d8c1b2',
+			name: 'The First Tab',
+			app: 'frontend@v0.1',
+			projectId: 'dfb8ec34-928d-42e4-87aa-d50e055cf09b',
+			order: 0
+		},
+		{
+			id: 'cb1311b8-5644-4a14-99f4-a95cf7d8c1b2',
+			name: 'The Second Tab',
+			app: 'frontend@v0.1',
+			projectId: 'dfb8ec34-928d-42e4-87aa-d50e055cf09b',
+			order: 1
+		}
+	];
 
 	// Subscriptions.
 	$: {
@@ -15,15 +34,16 @@
 </script>
 
 <template lang="pug">
-  #tab-bar(class="{$$props.class}")
-    .tabs-section
+	#tab-bar(class="{$$props.class}")
+		li.tabs-section: +each("tabs as tab")
+			TabComponent.tab("{tab}")
 
-    .profile-section
-      img.notification(src="{BellIcon}", alt="notification icon")
+		.profile-section
+			img.notification(src="{BellIcon}", alt="notification icon")
 
-      .profile-avatar
-        .halo
-        img(src="{avatarUrl}", alt="avatar")
+			.profile-avatar
+				.halo
+				img(src="{avatarUrl}", alt="avatar")
 </template>
 
 <style lang="scss">
@@ -35,11 +55,12 @@
 		background-color: var(--color-bg-6);
 		display: flex;
 
-		> .tabs-section {
+		> li.tabs-section {
 			height: 100%;
 			flex-grow: 1;
 			margin-left: var(--spacing-padding);
 			align-items: center;
+			display: flex;
 		}
 
 		> .profile-section {
