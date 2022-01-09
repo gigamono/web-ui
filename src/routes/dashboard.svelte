@@ -9,9 +9,10 @@
 		fetchSessionOpenTabs,
 		fetchSessionFocus,
 		sessionFocus,
-		sessionOpenTabs
+		sessionOpenTabs,
+focusTab
 	} from '$stores/session';
-	import { fetchProfile } from '$stores/profile';
+	import { fetchMyProfile } from '$stores/profile';
 	import { fetchApps } from '$stores/apps';
 	import { onDestroy } from 'svelte';
 	import ProjectModal from '$layout/projectModal/projectModal.svelte';
@@ -21,29 +22,22 @@
 		openContextMenuEvent,
 		closeContextMenuEvent
 	} from '$stores/events';
+	import { fetchTabs } from '$stores/tabs';
+	import type { SessionFocus, Tab } from '$application/types';
+
+	// State.
+	let menuTabOptions = null;
+	let showProjectModal = false;
+	let showContextMenu = false;
 
 	// Init.
 	(async () => {
 		await fetchApps(true);
-		await fetchProfile();
+		await fetchMyProfile();
 		await fetchSessionFocus();
 		await fetchSessionOpenTabs();
 		await fetchProjects();
-
-		// TODO(appcypher): Make function ./dashboard/setup.ts. Maybe this entire init section.
-		// If there is an existing focus tab in the session, open it.
-		if ($sessionFocus?.app) {
-			const tab = $sessionOpenTabs.find((tab) => tab.app === $sessionFocus.app && tab.focus);
-			if (tab) {
-				
-			}
-		}
 	})();
-
-	// State.
-	let sessionFocusApp = null;
-	let showProjectModal = false;
-	let showContextMenu = false;
 
 	// Subscriptions.
 	openAppEvent.subscribe(() => {
@@ -70,12 +64,17 @@
 		}
 	});
 
+	// TODO(appcypher): Remove this.
+	focusTab.subscribe((tab: Tab | null) => {
+		console.log('focusTab', tab);
+	});
+
 	// Handlers.
 	const handleMouseDown = () => {
 		showContextMenu = false;
 	};
 
-	const handleWindowKeyDown = (event) => {
+	const handleWindowKeyDown = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
 			showContextMenu = false;
 		}
@@ -100,7 +99,7 @@
 		SideStrip.side-strip
 		TabBar.tab-bar
 
-		+if("sessionFocusApp")
+		+if("menuTabOptions")
 			MenuBar.menu-bar
 
 		ContentArea.content-area

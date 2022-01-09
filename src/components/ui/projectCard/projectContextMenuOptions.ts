@@ -3,7 +3,7 @@ import RenameIcon from '$assets/icons/rename.svg';
 import DuplicateIcon from '$assets/icons/duplicate.svg';
 import StarIcon from '$assets/icons/star.svg';
 import TrashIcon from '$assets/icons/trash.svg';
-import { deleteProject } from '$stores/projects';
+import { deleteProjectById } from '$stores/projects';
 import type { ContextOption, Project } from '$application/types';
 import { emitCloseContextMenuEvent } from '$stores/events';
 
@@ -57,7 +57,7 @@ export const projectContextMenuOptions = (project: Project): ContextOption[] => 
 			color: 'var(--color-misc-tomato)',
 			handler: (event: Event): void => {
 				event.stopPropagation();
-				(async () => await deleteProject(project.id))();
+				(async () => await deleteProjectById(project.id))();
 				console.log('delete project');
 				emitCloseContextMenuEvent({});
 			}

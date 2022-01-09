@@ -17,7 +17,7 @@ const fetchProjects = async (space?: string): Promise<void> => {
 	}
 };
 
-const deleteProject = async (id: string): Promise<void> => {
+const deleteProjectById = async (id: string): Promise<void> => {
 	const response = await fetch(getSpecificProjectEndpoint(id), {
 		method: 'DELETE'
 	});
@@ -38,4 +38,4 @@ const createProject = async (name: string, space: string, color: string | null):
 	}
 };
 
-export { projects, fetchProjects, createProject, deleteProject };
+export { projects, fetchProjects, createProject, deleteProjectById };

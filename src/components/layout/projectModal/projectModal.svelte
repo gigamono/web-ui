@@ -10,6 +10,7 @@
 	import SearchIcon from '$assets/icons/search.svg';
 	import IconToggle from '$ui/iconToggle.svelte';
 	import type { Project } from '$application/types';
+import type { Rec } from '@sveltejs/kit/types/helper';
 
 	type SpaceSections = {
 		[spaceName: string]: Project[];
@@ -19,19 +20,26 @@
 	let spaceSections: SpaceSections = {};
 	let selectedToggleIndex: number = 0;
 
-	const toggleOptionImages = toggleOptions.reduce((acc, { outlineIconUrl, filledIconUrl }) => {
-		acc.push(outlineIconUrl);
-		acc.push(filledIconUrl);
-		return acc;
-	}, []);
+	const toggleOptionImages = toggleOptions.reduce(
+		(acc: string[], { outlineIconUrl, filledIconUrl }) => {
+			acc.push(outlineIconUrl);
+			acc.push(filledIconUrl);
+			return acc;
+		},
+		[]
+	);
 
 	const projectContextMenuOptionImages = Object.entries(projectContextOptionImages).map(
 		([_, iconUrl]) => iconUrl
 	);
 
+	type Acc = {
+		[key: string]: unknown
+	}
+
 	// Subscriptions.
 	projects.subscribe(($projects) => {
-		spaceSections = $projects.reduce((acc, val) => {
+		spaceSections = $projects.reduce((acc: Record<string, Project[]>, val) => {
 			if (!acc[val.space]) {
 				acc[val.space] = [val];
 			} else {

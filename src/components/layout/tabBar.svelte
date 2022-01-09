@@ -1,15 +1,15 @@
 <script lang="ts">
 	import BellIcon from '$assets/icons/bell.svg';
-	import { profile } from '$stores/profile';
+	import { myProfile } from '$stores/profile';
 	import { getProfileStaticEndpoint } from '$application/endpoints/profile';
 
 	// State.
-	let avatarUrl: string = null;
+	let avatarUrl: string | null = null;
 
 	// Subscriptions.
 	$: {
-		if ($profile) {
-			avatarUrl = getProfileStaticEndpoint($profile.avatarUrl);
+		if ($myProfile) {
+			avatarUrl = getProfileStaticEndpoint($myProfile.avatarUrl);
 		}
 	}
 </script>

@@ -5,7 +5,7 @@ import type { ContextMenu } from '$application/types';
 type OpenAppEvent = { event: Event; name: string };
 
 const createEvent = <T>() => {
-	const _event: Writable<T> = writable(null);
+	const _event: Writable<T | null> = writable(null);
 	const event = derived(_event, ($val) => $val);
 	const emitter = (args: T): void => {
 		_event.set(args);
