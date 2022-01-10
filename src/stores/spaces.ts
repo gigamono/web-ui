@@ -10,10 +10,13 @@ type Space = {
 	tab: string;
 };
 
+// Private.
 const _spaces: Writable<Space[]> = writable([]);
 
+// Public.
 const spaces = derived(_spaces, $val => $val);
 
+// Requests.
 const fetchSpaces = async (): Promise<void> => {
 	const endpoint = getEndpoint('/system/_spaces');
 

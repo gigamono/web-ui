@@ -3,7 +3,8 @@
 	import ShortcutButton from '$ui/shortcutButton.svelte';
 	import { getAppIconEndpoint } from '$application/endpoints/apps';
 	import { onDestroy } from 'svelte';
-	import { apps } from '$stores/apps';
+	import { enabledApps } from '$stores/apps';
+	import { launchAppEvent } from '$stores/events';
 
 	type Shortcut = {
 		filledIconUrl: string;
@@ -15,30 +16,48 @@
 	let userAppShortcuts: Shortcut[] = [];
 	let customShortcuts: Shortcut[] = [];
 	let systemAppShortcuts: Shortcut[] = [];
+	let selectedIndex = -1;
+	let selectedSection: string = '';
 
 	// Subscriptions.
-	apps.subscribe(() => {
-		if ($apps) {
-			for (const app of $apps) {
-				if (app.isSystemApp) {
-					systemAppShortcuts.push({
-						filledIconUrl: getAppIconEndpoint(app.name, false),
-						outlineIconUrl: getAppIconEndpoint(app.name),
-						name: app.name
-					});
-				} else {
-					userAppShortcuts.push({
-						filledIconUrl: getAppIconEndpoint(app.name, false),
-						outlineIconUrl: getAppIconEndpoint(app.name),
-						name: app.name
-					});
-				}
+	$: if ($enabledApps) {
+		for (const app of $enabledApps) {
+			if (app.isSystemApp) {
+				systemAppShortcuts.push({
+					filledIconUrl: getAppIconEndpoint(app.name, false),
+					outlineIconUrl: getAppIconEndpoint(app.name),
+					name: app.name
+				});
+			} else {
+				userAppShortcuts.push({
+					filledIconUrl: getAppIconEndpoint(app.name, false),
+					outlineIconUrl: getAppIconEndpoint(app.name),
+					name: app.name
+				});
 			}
-
-			systemAppShortcuts = systemAppShortcuts;
-			userAppShortcuts = userAppShortcuts;
 		}
-	});
+
+		// Force update.
+		systemAppShortcuts = systemAppShortcuts;
+		userAppShortcuts = userAppShortcuts;
+	}
+
+	$: if ($launchAppEvent) {
+		const appName = $launchAppEvent.name;
+
+		// Find the app in enabledApps.
+		const app = $enabledApps.find((app) => app.name === appName) || null;
+
+		if (app) {
+			if (app.isSystemApp) {
+				selectedIndex = systemAppShortcuts.findIndex((shortcut) => shortcut.name === appName);
+				selectedSection = 'systemAppShortcuts';
+			} else {
+				selectedIndex = userAppShortcuts.findIndex((shortcut) => shortcut.name === appName);
+				selectedSection = 'userAppShortcuts';
+			}
+		}
+	}
 </script>
 
 <template lang="pug">
@@ -46,10 +65,11 @@
     .brand-section
       Brand.brand
 
-    li.container: +each("userAppShortcuts as el (el.name)")
+    li.container: +each("userAppShortcuts as el, index (el.name)")
       ShortcutButton(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
+				selected!="{selectedSection === 'userAppShortcuts' && selectedIndex === index}"
         name="{el.name}"
       )
 
@@ -60,10 +80,11 @@
         name="{el.name}"
       )
 
-    li.container: +each("systemAppShortcuts as el (el.name)")
+    li.container: +each("systemAppShortcuts as el, index (el.name)")
       ShortcutButton(
         outlineIconUrl="{el.outlineIconUrl}"
         filledIconUrl="{el.filledIconUrl}"
+				selected!="{selectedSection === 'systemAppShortcuts' && selectedIndex === index}"
         name="{el.name}"
       )
 </template>

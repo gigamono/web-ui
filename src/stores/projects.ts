@@ -4,10 +4,13 @@ import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 import type { Project } from '$application/types';
 
+// Private
 const _projects: Writable<Project[]> = writable([]);
 
+// Public.
 const projects = derived(_projects, ($val) => $val);
 
+// Requests.
 const fetchProjects = async (space?: string): Promise<void> => {
 	const response = await fetch(getProjectsEndpoint(space));
 	const payload: Payload<Project[]> = await response.json();

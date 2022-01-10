@@ -4,9 +4,13 @@ import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 import type { Tab } from '$application/types';
 
+// Private.
 const _tabs: Writable<Tab[]> = writable([]);
+
+// Public.
 const tabs = derived(_tabs, ($val) => $val);
 
+// Requests.
 const fetchTabs = async (): Promise<void> => {
 	// Fetch content from endpoint.
 	const response = await fetch(getTabsEndpoint());
@@ -23,7 +27,7 @@ const fetchTabById = async (id: string): Promise<Tab | null> => {
 	const response = await fetch(getTabsEndpoint(id));
 	const payload: Payload<Tab> = await response.json();
 
-	// Set value to payload data if it exists.
+	// Get payload data if it exists.
 	if (payload.data) {
 		return payload.data as Tab;
 	}

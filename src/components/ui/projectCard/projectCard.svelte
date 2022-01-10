@@ -97,11 +97,12 @@
 		}
 
 		> .title {
+			@include ellipsis-text;
+			
 			font-size: 0.8rem;
 			margin-top: 0.5rem;
 			width: 100%;
 			font-weight: 400;
-			text-overflow: ellipsis;
 		}
 
 		&:hover {

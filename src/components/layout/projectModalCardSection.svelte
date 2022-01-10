@@ -49,6 +49,7 @@
 </template>
 
 <style lang="scss">
+	@import '../../assets/styles/styles.scss';
 	@import '../../assets/styles/variables.scss';
 
 	.container {
@@ -71,13 +72,14 @@
 			}
 
 			> span.name {
+				@include ellipsis-text;
+
 				font-size: 0.9375rem;
 				letter-spacing: 0.125rem;
 				font-family: var(--font-title);
 				text-transform: uppercase;
 				font-weight: 560;
 				font-variation-settings: 'wght' 560;
-				text-overflow: ellipsis;
 			}
 
 			> :global(.ellipsis) {

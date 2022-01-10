@@ -38,7 +38,7 @@
 	};
 
 	// Subscriptions.
-	projects.subscribe(($projects) => {
+	$: {
 		spaceSections = $projects.reduce((acc: Record<string, Project[]>, val) => {
 			if (!acc[val.space]) {
 				acc[val.space] = [val];
@@ -47,7 +47,7 @@
 			}
 			return acc;
 		}, {});
-	});
+	}
 
 	// Handlers.
 	const handleBackgroundClick = (): void => {
@@ -80,7 +80,7 @@
 					projects="{projects}"
 				)
 
-			button.create-space + Add a space
+			button.add-new-space + Add a space
 
 		//- Preload toggle icon images.
 		+each("toggleOptionImages as image")
@@ -172,7 +172,7 @@
 				overflow-y: scroll;
 			}
 
-			> button.create-space {
+			> button.add-new-space {
 				width: 100%;
 				font-size: 1rem;
 				font-weight: 650;

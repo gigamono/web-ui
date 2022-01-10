@@ -16,3 +16,9 @@
 	position: initial;
 	top: 0;
 }
+
+@mixin ellipsis-text {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

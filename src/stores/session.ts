@@ -3,22 +3,69 @@ import type { Writable } from 'svelte/store';
 import type { Payload } from './types';
 import { getEndpoint } from '$application/endpoints/utils';
 import type { SessionFocus, SessionOpenTab, Tab } from '$application/types';
-import { fetchTabById } from './tabs';
+import { get } from 'svelte/store';
 
 type SessionOpenTabPartial = Partial<SessionOpenTab>;
 type SessionFocusPartial = Partial<SessionFocus>;
 
+// Private.
 const _sessionOpenTabs: Writable<SessionOpenTab[]> = writable([]);
 const _sessionFocus: Writable<SessionFocus | null> = writable(null);
-const _focusTab: Writable<Tab | null> = writable(null);
+const _focusAppOpenTabs: Writable<Tab[]> = writable([]);
+const _focusAppTab: Writable<Tab | null> = writable(null);
 
+// Public.
 const sessionOpenTabs = derived(_sessionOpenTabs, ($val) => $val);
 const sessionFocus = derived(_sessionFocus, ($val) => $val);
 const sessionFocusAndOpenTabs = derived([_sessionFocus, _sessionOpenTabs], ([focus, openTabs]) => ({
 	focus,
 	openTabs
 }));
-const focusTab = derived(_focusTab, ($val) => $val);
+const focusAppOpenTabs = derived(_focusAppOpenTabs, ($val) => $val);
+const focusAppTab = derived(_focusAppTab, ($val) => $val);
+
+// Subscriptions.
+sessionFocusAndOpenTabs.subscribe(async ({ focus }) => {
+	// Only if there is a focus app.
+	if (focus?.app) {
+		_focusAppOpenTabs.set(await fetchSessionOpenTabsTabs(focus.app));
+	}
+});
+
+focusAppOpenTabs.subscribe((focusAppOpenTabs: Tab[]) => {
+	const openTabs = get(_sessionOpenTabs);
+	const focus = get(_sessionFocus);
+
+	// Check list of open tabs for associated app.
+	const focusAppTab = openTabs.find((tab) => tab.app === focus?.app && tab.focus) || null;
+
+	// If it exists, fetch the actual tab.
+	if (focusAppTab) {
+		const foundTab = focusAppOpenTabs.find((tab) => focusAppTab.tabId === tab.id) || null;
+		_focusAppTab.set(foundTab);
+	} else {
+		// If not, fetch the first open tab in the app if one exists.
+		const firstOpenTab = openTabs.find((tab) => tab.app === focus?.app);
+		if (firstOpenTab) {
+			const foundTab = focusAppOpenTabs.find((tab) => firstOpenTab.tabId === tab.id) || null;
+			_focusAppTab.set(foundTab);
+		}
+	}
+});
+
+// Requests.
+const fetchSessionOpenTabsTabs = async (app: string): Promise<Tab[]> => {
+	// Fetch content from endpoint.
+	const response = await fetch(getEndpoint(`/system/session/open_tabs/tabs?app=${app}`));
+	const payload: Payload<Tab[]> = await response.json();
+
+	// Return payload data if it exists.
+	if (payload.data) {
+		return payload.data;
+	}
+
+	return [];
+};
 
 const fetchSession = <T>(rx: Writable<T>, endpoint: string) => {
 	return async (): Promise<void> => {
@@ -78,30 +125,11 @@ const modifySessionTabsNonCritical = modifyNonCritical<SessionOpenTabPartial>(
 	getEndpoint('/system/session/focus')
 );
 
-// Subscriptions.
-sessionFocusAndOpenTabs.subscribe(async ({ focus, openTabs }) => {
-	// If there is a focus app.
-	if (focus?.app) {
-		// Check list of open tabs for associated app.
-		const focusTab = openTabs.find((tab) => tab.app === focus.app && tab.focus);
-
-		// If it exists, fetch the actual tab.
-		if (focusTab) {
-			_focusTab.set(await fetchTabById(focusTab.tabId));
-		} else {
-			// If not, fetch the first open tab in the app if one exists.
-			const firstOpenTab = openTabs.find((tab) => tab.app === focus.app);
-			if (firstOpenTab) {
-				_focusTab.set(await fetchTabById(firstOpenTab.id));
-			}
-		}
-	}
-});
-
 export {
 	sessionFocus,
 	sessionOpenTabs,
-	focusTab,
+	focusAppTab,
+	focusAppOpenTabs,
 	fetchSessionFocus,
 	fetchSessionOpenTabs,
 	modifySessionFocusNonCritical,

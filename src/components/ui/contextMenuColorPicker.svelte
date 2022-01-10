@@ -19,15 +19,13 @@
 	if (props.hasNullColor) {
 		colors = [null, ...props.colors];
 	}
-
-	const isNullColorIndex = (index: number) => index === 0 && props.hasNullColor;
 </script>
 
 <template lang="pug">
 	li.colors: +each("colors as color, index")
 		.color-circle
 			.color(
-				class="{isNullColorIndex(index) ? 'placeholder-image' : 'no-placeholder'}",
+				class!="{index === 0 && props.hasNullColor ? 'placeholder-image' : 'no-placeholder'}",
 				style="--color: var({color})"
 			)
 			.halo(class:selected="{props.selectedIndex === index}")

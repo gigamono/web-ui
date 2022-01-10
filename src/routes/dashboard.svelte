@@ -9,21 +9,24 @@
 		fetchSessionOpenTabs,
 		fetchSessionFocus,
 		sessionFocus,
-		sessionOpenTabs,
-		focusTab
+		sessionOpenTabs
 	} from '$stores/session';
 	import { fetchMyProfile } from '$stores/profile';
-	import { fetchApps } from '$stores/apps';
+	import { fetchEnabledApps } from '$stores/apps';
 	import { onDestroy } from 'svelte';
 	import ProjectModal from '$layout/projectModal/projectModal.svelte';
 	import {
-		openAppEvent,
+		launchAppEvent,
 		closeProjectModalEvent,
 		openContextMenuEvent,
-		closeContextMenuEvent
+		closeContextMenuEvent,
+		emitLaunchAppEvent,
+		appLaunchedEvent
 	} from '$stores/events';
 	import { fetchTabs } from '$stores/tabs';
 	import type { Tab } from '$application/types';
+	import EverythingIcon from '$assets/icons/everything.svg';
+	import AddIcon from '$assets/icons/add.svg';
 
 	// State.
 	let menuTabOptions = null;
@@ -32,7 +35,7 @@
 
 	// Init.
 	(async () => {
-		await fetchApps(true);
+		await fetchEnabledApps();
 		await fetchMyProfile();
 		await fetchSessionFocus();
 		await fetchSessionOpenTabs();
@@ -40,34 +43,29 @@
 	})();
 
 	// Subscriptions.
-	openAppEvent.subscribe(() => {
-		if ($openAppEvent) {
-			showProjectModal = true;
+	$: if ($closeProjectModalEvent) {
+		showProjectModal = false;
+	}
+
+	$: if ($openContextMenuEvent) {
+		showContextMenu = true;
+	}
+
+	$: if ($closeContextMenuEvent) {
+		showContextMenu = false;
+	}
+
+	const unsubscribeSessionFocus = sessionFocus.subscribe((sessionFocus) => {
+		if (sessionFocus) {
+			emitLaunchAppEvent({ name: sessionFocus.app });
 		}
 	});
 
-	closeProjectModalEvent.subscribe(() => {
-		if ($closeProjectModalEvent) {
-			showProjectModal = false;
-		}
-	});
-
-	openContextMenuEvent.subscribe(() => {
-		if ($openContextMenuEvent) {
-			showContextMenu = true;
-		}
-	});
-
-	closeContextMenuEvent.subscribe(() => {
-		if ($closeContextMenuEvent) {
-			showContextMenu = false;
-		}
-	});
-
-	// TODO(appcypher): Remove this.
-	focusTab.subscribe((tab: Tab | null) => {
-		console.log('focusTab', tab);
-	});
+	$: if ($sessionFocus) {
+		// A hack to keep svelte ssr happy. If I try to unsubscribe within the subscription itself, it throws an error on reload.
+		// It is not an issue in production build though.
+		unsubscribeSessionFocus();
+	}
 
 	// Handlers.
 	const handleMouseDown = () => {
@@ -109,6 +107,10 @@
 
 		+if("showContextMenu")
 			ContextMenu.context-menu(menu="{$openContextMenuEvent}")
+
+		//- Preload tab bar icon images.
+		link(rel="preload", as="image", href="{EverythingIcon}", crossorigin='anonymous')
+		link(rel="preload", as="image", href="{AddIcon}", crossorigin='anonymous')
 </template>
 
 <style lang="scss">

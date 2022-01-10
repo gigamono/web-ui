@@ -9,19 +9,22 @@ type App = {
 	isSystemApp: boolean;
 };
 
-const _apps: Writable<App[]> = writable([]);
+// Private.
+const _enabledApps: Writable<App[]> = writable([]);
 
-const apps = derived(_apps, $val => $val);
+// Public.
+const enabledApps = derived(_enabledApps, $val => $val);
 
-const fetchApps = async (enabled = false): Promise<void> => {
+// Requests.
+const fetchEnabledApps = async (): Promise<void> => {
 	// Fetch content from endpoint.
-	const response = await fetch(getAppsEndpoint(enabled));
+	const response = await fetch(getAppsEndpoint(true));
 	const payload: Payload<App[]> = await response.json();
 
 	// Set value to payload data if it exists.
 	if (payload.data) {
-		_apps.set(payload.data);
+		_enabledApps.set(payload.data);
 	}
 };
 
-export { fetchApps, apps };
+export { fetchEnabledApps, enabledApps };

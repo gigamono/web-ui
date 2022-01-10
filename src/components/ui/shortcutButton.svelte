@@ -1,34 +1,27 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { emitOpenAppEvent } from '$stores/events';
+	import { emitLaunchAppEvent } from '$stores/events';
 	import { closeProjectModalEvent } from '$stores/events';
 
 	// Props.
 	export let filledIconUrl: string;
 	export let outlineIconUrl: string;
 	export let name: string;
-
-	// State.
-	let active = false;
+	export let selected: boolean;
 
 	// Handlers.
-	const handleClick = (event: Event) => {
-		emitOpenAppEvent({ event, name });
-		active = true;
+	const handleClick = () => {
+		emitLaunchAppEvent({ name });
 	};
 
-	// Subscriptions.
-	const unsubCloseProjectModalEvent = closeProjectModalEvent.subscribe(() => {
-		active = false;
-	});
-
-	// Cleanup
-	onDestroy(unsubCloseProjectModalEvent);
+	$: {
+		console.log("App selected: ", name);
+	}
 </script>
 
 <template lang="pug">
 	button.shortcut(
-		class:active="{active}",
+		class:selected,
 		on:click="{handleClick}"
 	)
 		.icon_filled(style="--icon-filled-url: url('{filledIconUrl}');")
@@ -69,7 +62,7 @@
 		}
 
 		&:hover,
-		&.active {
+		&.selected {
 			cursor: pointer;
 			background-color: var(--color-primary-3);
 

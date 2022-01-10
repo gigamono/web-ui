@@ -15,9 +15,13 @@ type ProfileOptional = {
 	avatarUrl?: string;
 };
 
+// Private.
 const _myProfile: Writable<Profile | null> = writable(null);
+
+// Public.
 const myProfile = derived(_myProfile, ($val) => $val);
 
+// Requests.
 const fetchMyProfile = async (): Promise<void> => {
 	// Fetch content from endpoint.
 	const response = await fetch(getEndpoint('/system/profile'));

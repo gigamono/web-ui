@@ -2,7 +2,7 @@ import { writable, derived } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 import type { ContextMenu } from '$application/types';
 
-type OpenAppEvent = { event: Event; name: string };
+type launchAppEvent = { name: string };
 
 const createEvent = <T>() => {
 	const _event: Writable<T | null> = writable(null);
@@ -17,28 +17,35 @@ const createEvent = <T>() => {
 	};
 };
 
-// Open App Event
-const { event: openAppEvent, emitter: emitOpenAppEvent } = createEvent<OpenAppEvent>();
 
-// Close Project Modal Event
+// Event for when an app needs to be launched.
+const { event: launchAppEvent, emitter: emitLaunchAppEvent } = createEvent<launchAppEvent>();
+
+// Event for notifiying that an app has been launched.
+const { event: appLaunchedEvent, emitter: emitAppLaunchedEvent } =
+	createEvent<Record<string, never>>();
+
+// Event for when project modal needs to be closed.
 const { event: closeProjectModalEvent, emitter: emitCloseProjectModalEvent } =
 	createEvent<Record<string, never>>();
 
-// Open Context MenuEvent
+// Event for when a context menu needs to be opened.
 const { event: openContextMenuEvent, emitter: emitOpenContextMenuEvent } =
 	createEvent<ContextMenu<unknown, unknown>>();
 
-// Close Context MenuEvent
+// Event for when a context menu needs to be closed.
 const { event: closeContextMenuEvent, emitter: emitCloseContextMenuEvent } =
 	createEvent<Record<string, never>>();
 
 export {
-	openAppEvent,
-	emitOpenAppEvent,
+	launchAppEvent,
+	emitLaunchAppEvent,
 	closeProjectModalEvent,
 	emitCloseProjectModalEvent,
 	openContextMenuEvent,
 	emitOpenContextMenuEvent,
 	closeContextMenuEvent,
-	emitCloseContextMenuEvent
+	emitCloseContextMenuEvent,
+	appLaunchedEvent,
+	emitAppLaunchedEvent
 };

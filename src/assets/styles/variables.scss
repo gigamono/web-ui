@@ -107,15 +107,13 @@ $woff2-fonts: (
 // === Sizes ===
 
 :root {
-	--size-frame: 3.125rem;
+	--size-frame: 3rem;
 
 	--size-context-option-icon: 0.875rem;
 	--height-context-option: 2rem;
 
-
 	--width-project-card: 16rem;
 	--height-project-card: 12rem;
-
 
 	--size-toggle-icon: 0.875rem;
 
@@ -123,6 +121,8 @@ $woff2-fonts: (
 	--size-icon-2: 0.625rem;
 
 	--size-icon-button: 1.75rem;
+
+	--size-tab-button: calc(var(--size-frame) - var(--padding-tab) * 2);
 }
 
 // === Paddings ===
@@ -133,6 +133,8 @@ $woff2-fonts: (
 
 	--padding-toggle: 0.125rem;
 	--padding-toggle-option: 0.375rem 0.75rem;
+
+	--padding-tab: 0.375rem;
 }
 
 // === Margins ===
