@@ -22,7 +22,8 @@ const config = {
 					$actions: resolve('./src/actions'),
 					$assets: resolve('./src/assets'),
 					$application: resolve('./src/application'),
-					$components: resolve('./src/components')
+					$components: resolve('./src/components'),
+					$types: resolve('./src/types')
 				}
 			}
 		}

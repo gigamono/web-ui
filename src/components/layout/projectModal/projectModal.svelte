@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ProjectModalCardSection from '$layout/projectModalCardSection.svelte';
 	import { projects } from '$stores/projects';
-	import { emitCloseProjectModalEvent } from '$stores/events';
 	import {
 		projectContextMenuOptions,
 		projectContextOptionImages
@@ -9,7 +8,7 @@
 	import { toggleOptions } from './toggleOptions';
 	import SearchIcon from '$assets/icons/search.svg';
 	import IconToggle from '$ui/iconToggle.svelte';
-	import type { Project } from '$application/types';
+	import type { Project } from 'src/types/model';
 	import type { Rec } from '@sveltejs/kit/types/helper';
 
 	type SpaceSections = {
@@ -38,20 +37,20 @@
 	};
 
 	// Subscriptions.
-	$: {
-		spaceSections = $projects.reduce((acc: Record<string, Project[]>, val) => {
-			if (!acc[val.space]) {
-				acc[val.space] = [val];
-			} else {
-				acc[val.space].push(val);
-			}
-			return acc;
-		}, {});
-	}
+	// $: {
+	// 	spaceSections = $projects.reduce((acc: Record<string, Project[]>, val) => {
+	// 		if (!acc[val.space]) {
+	// 			acc[val.space] = [val];
+	// 		} else {
+	// 			acc[val.space].push(val);
+	// 		}
+	// 		return acc;
+	// 	}, {});
+	// }
 
 	// Handlers.
 	const handleBackgroundClick = (): void => {
-		emitCloseProjectModalEvent({});
+		// emitCloseProjectModalSignal({});
 	};
 </script>
 

@@ -4,7 +4,7 @@
 	import CollapseIcon from '$assets/icons/collapse.svg';
 	import EllipsisIcon from '$assets/icons/ellipsis.svg';
 	import AddIcon from '$assets/icons/add.svg';
-	import type { Project } from '$application/types';
+	import type { Project } from 'src/types/model';
 
 	// Props.
 	export let spaceName: string;

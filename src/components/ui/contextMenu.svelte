@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
-	import type { ContextMenu } from '$application/types';
+	import type { ContextMenu } from 'src/types/model';
 	import Brand from './brand.svelte';
 
 	// Props.

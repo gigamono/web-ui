@@ -3,9 +3,8 @@ import RenameIcon from '$assets/icons/rename.svg';
 import DuplicateIcon from '$assets/icons/duplicate.svg';
 import StarIcon from '$assets/icons/star.svg';
 import TrashIcon from '$assets/icons/trash.svg';
-import { deleteProjectById } from '$stores/projects';
-import type { ContextOption, Project } from '$application/types';
-import { emitCloseContextMenuEvent } from '$stores/events';
+import type { ContextOption } from '$types/app';
+import type { Project } from '$types/model';
 
 export const projectContextOptionImages = {
 	share: ShareIcon,
@@ -57,9 +56,7 @@ export const projectContextMenuOptions = (project: Project): ContextOption[] => 
 			color: 'var(--color-misc-tomato)',
 			handler: (event: Event): void => {
 				event.stopPropagation();
-				(async () => await deleteProjectById(project.id))();
-				console.log('delete project');
-				emitCloseContextMenuEvent({});
+				// TODO(appcypher): Delete project.
 			}
 		}
 	];

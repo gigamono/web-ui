@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ToggleOption } from '$application/types';
+	import type { ToggleOption } from '$types/app';
 
 	// Props.
 	export let toggleOptions: ToggleOption[];

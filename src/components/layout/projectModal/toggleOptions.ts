@@ -2,7 +2,7 @@ import GridOutlineIcon from '$assets/icons/grid_outline.svg';
 import GridFilledIcon from '$assets/icons/grid_filled.svg';
 import ListOutlineIcon from '$assets/icons/list.svg';
 import ListFilledIcon from '$assets/icons/list.svg';
-import type { ToggleOption } from '$application/types';
+import type { ToggleOption } from '$types/app';
 
 export const toggleOptions: ToggleOption[] = [
 	{

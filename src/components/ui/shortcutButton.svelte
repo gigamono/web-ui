@@ -1,22 +1,18 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { emitLaunchAppEvent } from '$stores/events';
-	import { closeProjectModalEvent } from '$stores/events';
+	import type { SessionAccessibleAppXApp } from '$types/model';
+	import { emitAppSelectedEvent } from '$stores/events/events';
 
 	// Props.
 	export let filledIconUrl: string;
 	export let outlineIconUrl: string;
-	export let name: string;
+	export let id: string;
 	export let selected: boolean;
 
 	// Handlers.
 	const handleClick = () => {
-		emitLaunchAppEvent({ name });
+		emitAppSelectedEvent({ appId: id });
 	};
-
-	$: {
-		console.log("App selected: ", name);
-	}
 </script>
 
 <template lang="pug">
@@ -33,11 +29,12 @@
 	@import '../../assets/styles/variables.scss';
 
 	button.shortcut {
-		--size-shortcut: 2rem;
+		--height-shortcut: 2.1rem;
+		--width-shortcut: 2rem;
 		--size-shortcut-icon: 1rem;
 
-		width: var(--size-shortcut);
-		height: var(--size-shortcut);
+		width: var(--width-shortcut);
+		height: var(--height-shortcut);
 		border-radius: var(--radius-primary);
 		display: flex;
 		align-items: center;
@@ -64,7 +61,6 @@
 		&:hover,
 		&.selected {
 			cursor: pointer;
-			background-color: var(--color-primary-3);
 
 			> .icon_outline {
 				@include hide;
@@ -73,6 +69,14 @@
 			> .icon_filled {
 				@include show;
 			}
+		}
+
+		&:hover {
+			background-color: var(--color-primary);
+		}
+
+		&.selected {
+			background-color: var(--color-primary-3);
 		}
 	}
 </style>

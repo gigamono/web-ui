@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { ContextMenu, ContextMenuColorPickerProps, Project } from '$application/types';
-	import { emitOpenContextMenuEvent } from '$stores/events';
+import type { ContextMenu, ContextMenuColorPickerProps } from '$types/app';
+import type { Project } from '$types/model';
+
 	import ContextMenuColorPicker from '$ui/contextMenuColorPicker.svelte';
 	import { projectContextMenuOptions } from './projectContextMenuOptions';
 
@@ -38,7 +39,7 @@
 			}
 		};
 
-		emitOpenContextMenuEvent(menu);
+		// emitOpenContextMenuSignal(menu);
 	};
 </script>
 
@@ -98,7 +99,7 @@
 
 		> .title {
 			@include ellipsis-text;
-			
+
 			font-size: 0.8rem;
 			margin-top: 0.5rem;
 			width: 100%;

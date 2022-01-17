@@ -1,12 +1,5 @@
 import type { SvelteComponent } from 'svelte';
 
-type Project = {
-	id: string;
-	name: string;
-	space: string;
-	color: string;
-};
-
 type Position = {
 	x: number;
 	y: number;
@@ -44,33 +37,17 @@ type ToggleOption = {
 	handler: (event: Event) => void;
 };
 
-type SessionOpenTab = {
+type Shortcut = {
+	filledIconUrl: string;
+	outlineIconUrl: string;
 	id: string;
-	app: string;
-	tabId: string;
-	focus: boolean;
-};
-
-type SessionFocus = {
-	app: string;
-};
-
-type Tab = {
-	id: string;
-	name: string;
-	app: string;
-	projectId: string;
-	order: number;
 };
 
 export type {
-	Project,
 	Position,
 	ContextOption,
 	ToggleOption,
 	ContextMenu,
 	ContextMenuColorPickerProps,
-	SessionOpenTab,
-	SessionFocus,
-	Tab
+	Shortcut
 };

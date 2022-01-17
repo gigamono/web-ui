@@ -32,7 +32,8 @@
 			"$actions/*": ["src/actions/*"],
 			"$assets/*": ["src/assets/*"],
 			"$application/*": ["src/application/*"],
-			"$components/*": ["src/components/*"]
+			"$components/*": ["src/components/*"],
+			"$types/*": ["src/types/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]

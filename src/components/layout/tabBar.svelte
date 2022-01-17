@@ -3,16 +3,14 @@
 	import EverythingIcon from '$assets/icons/everything.svg';
 	import AddIcon from '$assets/icons/add.svg';
 	import { myProfile } from '$stores/profile';
-	import { getProfileStaticEndpoint } from '$application/endpoints/profile';
 	import { default as TabComponent } from '$ui/tab.svelte';
-	import type { Tab } from '$application/types';
-	import { focusAppOpenTabs, focusAppTab, sessionOpenTabs, sessionFocus } from '$stores/session';
-	import { launchAppEvent } from '$stores/events';
+	import type { Tab } from 'src/types/model';
+	import { getProfileStaticEndpoint } from '$application/endpoints/utils';
+	import { focusAppOpenTabs, focusProject, focusApp, focusAppOpenTab } from '$stores/session';
 
 	// State.
 	let avatarUrl: string;
 	let tabs: Tab[] = [];
-	let focusApp = false;
 	let selectedIndex = -1;
 
 	// Subscriptions.
@@ -20,10 +18,13 @@
 		avatarUrl = getProfileStaticEndpoint($myProfile.avatarUrl);
 	}
 
-	$: if ($launchAppEvent) {
-		tabs = $focusAppOpenTabs;
-		focusApp = !!$sessionFocus?.app;
-		selectedIndex = tabs.findIndex((tab) => tab.id === $focusAppTab?.id);
+	$: if ($focusAppOpenTabs) {
+		tabs = $focusAppOpenTabs.filter((tab) => tab.projectId === $focusProject?.id);
+		selectedIndex = tabs.findIndex((tab) => tab.id === $focusAppOpenTab?.id);
+	}
+
+	$: if ($focusAppOpenTab) {
+		selectedIndex = tabs.findIndex((tab) => tab.id === $focusAppOpenTab?.id);
 	}
 </script>
 
@@ -42,7 +43,7 @@
 
 				.divider
 
-			+if("focusApp")
+			+if("$focusApp")
 				button.add-tab
 					.icon(style="--icon-url: url('{AddIcon}')")
 
@@ -87,13 +88,19 @@
 				cursor: pointer;
 
 				> .icon {
-					width: 0.625rem;
-					height: 0.625rem;
+					--size-icon: 0.6875rem;
+
+					width: var(--size-icon);
+					height: var(--size-icon);
 					background-color: var(--color-text-5);
 				}
 
 				&:hover {
-					background-color: var(--color-bg-4);
+					background-color: var(--color-bg-3);
+
+					> .icon {
+						background-color: var(--color-text-0);
+					}
 				}
 			}
 
@@ -108,7 +115,7 @@
 			.divider {
 				height: var(--height-tab-divider);
 				width: var(--width-tab-divider);
-				background-color: var(--color-bg-4);
+				background-color: var(--color-bg-3);
 			}
 
 			> li.tabs {

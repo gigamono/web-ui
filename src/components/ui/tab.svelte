@@ -1,13 +1,24 @@
 <script lang="ts">
-	import type { Tab } from '$application/types';
+import { emitTabSelectedEvent } from '$stores/events/events';
+
+	import type { Tab } from 'src/types/model';
 
 	// Props.
 	export let tab: Tab;
 	export let selected: boolean;
+
+	// Handlers.
+	const handleClick = (): void => {
+		emitTabSelectedEvent({ tabId: tab.id });
+	};
 </script>
 
 <template lang="pug">
-	.tab(class="{$$props.class}", class:selected)
+	.tab(
+		class="{$$props.class}",
+		class:selected,
+		on:click="{handleClick}"
+	)
 		button
 			.icon
 			.name {tab.name}
@@ -55,7 +66,11 @@
 			}
 
 			&:hover {
-				background-color: var(--color-bg-4);
+				background-color: var(--color-bg-3);
+
+				> .icon {
+					background-color: var(--color-bg-2);
+				}
 			}
 		}
 
