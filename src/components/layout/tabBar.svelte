@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 <script lang="ts">
 	import BellIcon from '$assets/icons/bell.svg';
 	import EverythingIcon from '$assets/icons/everything.svg';

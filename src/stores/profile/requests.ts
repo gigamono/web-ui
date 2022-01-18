@@ -1,6 +1,8 @@
-import { getEndpoint } from "$application/endpoints/utils";
-import type { Payload } from "$stores/types";
-import type { MyProfile } from "$types/model";
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
+import { getEndpoint } from '$application/endpoints/utils';
+import type { Payload } from '$stores/types';
+import type { MyProfile } from '$types/model';
 
 const fetchRemoteMyProfile = async (): Promise<MyProfile | null> => {
 	// Fetch content from endpoint.
@@ -12,7 +14,7 @@ const fetchRemoteMyProfile = async (): Promise<MyProfile | null> => {
 		return payload.data;
 	}
 
-    return null;
+	return null;
 };
 
 type MyProfilePartial = Partial<MyProfile>;
@@ -23,10 +25,7 @@ const modifyRemoteMyProfile = async (newProfile: MyProfilePartial): Promise<bool
 		body: JSON.stringify(newProfile)
 	});
 
-	return response.ok
+	return response.ok;
 };
 
-export {
-    fetchRemoteMyProfile,
-    modifyRemoteMyProfile
-}
+export { fetchRemoteMyProfile, modifyRemoteMyProfile };

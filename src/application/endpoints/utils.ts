@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 const getEndpoint = (path: string): string => 'http://127.0.0.1:5050/api/v1' + path;
 
 const getAppIconEndpoint = (name: string, is_outline = true): string => {

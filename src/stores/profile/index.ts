@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 import { writable, derived } from 'svelte/store';
 import type { Writable } from 'svelte/store';
 import type { MyProfile } from '$types/model';

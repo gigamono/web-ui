@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 import { getEndpoint } from '$application/endpoints/utils';
 import type { Payload } from '$stores/types';
 import type {

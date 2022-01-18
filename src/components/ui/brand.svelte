@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 <template lang="pug">
   svg(id="brand-svg", class="{$$props.class}", width="201", height="275", viewBox="0 0 201 275", fill="none", xmlns="http://www.w3.org/2000/svg")
     path(id="brand-svg-path-1", fill-rule="evenodd", clip-rule="evenodd", d="M100 200C155.228 200 200 155.228 200 100C200 80.8639 194.625 62.9832 185.302 47.7853C193.97 43.86 200 35.1342 200 25C200 11.1929 188.807 0 175 0C164.866 0 156.14 6.02998 152.215 14.6978C137.017 5.37506 119.136 0 100 0C44.7715 0 0 44.7715 0 100C0 155.228 44.7715 200 100 200ZM100 150C72.3858 150 50 127.614 50 100C50 72.3858 72.3858 50 100 50C127.614 50 150 72.3858 150 100C150 127.614 127.614 150 100 150Z", fill="url(#brand-svg-gradient)")

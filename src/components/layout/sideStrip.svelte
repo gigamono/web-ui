@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 <script lang="ts">
 	import { getAppIconEndpoint } from '$application/endpoints/utils';
 	import { accessibleApps, focusApp } from '$stores/session';

@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 import adapter from '@sveltejs/adapter-static';
 import preprocess from 'svelte-preprocess';
 import { resolve } from 'path';

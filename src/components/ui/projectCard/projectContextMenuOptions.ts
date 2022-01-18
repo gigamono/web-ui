@@ -1,3 +1,5 @@
+// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+
 import ShareIcon from '$assets/icons/share.svg';
 import RenameIcon from '$assets/icons/rename.svg';
 import DuplicateIcon from '$assets/icons/duplicate.svg';
