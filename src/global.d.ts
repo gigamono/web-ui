@@ -1,3 +1,3 @@
-// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+// Copyright 2022 the Gigamono authors. All rights reserved. GPL-3.0 License.
 
 /// <reference types="@sveltejs/kit" />

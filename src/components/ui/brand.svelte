@@ -1,4 +1,4 @@
-// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+// Copyright 2022 the Gigamono authors. All rights reserved. GPL-3.0 License.
 
 <template lang="pug">
   svg(id="brand-svg", class="{$$props.class}", width="201", height="275", viewBox="0 0 201 275", fill="none", xmlns="http://www.w3.org/2000/svg")

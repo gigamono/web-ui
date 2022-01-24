@@ -1,4 +1,4 @@
-// Copyright 2022 the Gigamono authors. All rights reserved. Apache 2.0 license.
+// Copyright 2022 the Gigamono authors. All rights reserved. GPL-3.0 License.
 
 import GridOutlineIcon from '$assets/icons/grid_outline.svg';
 import GridFilledIcon from '$assets/icons/grid_filled.svg';
