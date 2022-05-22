@@ -1,5 +1,3 @@
-// Copyright 2022 the Gigamono authors. All rights reserved. GPL-3.0 License.
-
 <script lang="ts">
 	import type { SvelteComponent } from 'svelte';
 	import type { ContextMenu } from 'src/types/model';

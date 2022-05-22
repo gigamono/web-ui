@@ -1,5 +1,3 @@
-// Copyright 2022 the Gigamono authors. All rights reserved. GPL-3.0 License.
-
 <script lang="ts">
 	import ProjectModalCardSection from '$layout/projectModalCardSection.svelte';
 	import { projects } from '$stores/projects';
